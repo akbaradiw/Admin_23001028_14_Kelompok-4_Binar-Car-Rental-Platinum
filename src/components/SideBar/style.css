@@ -1,0 +1,25 @@
+.sidebar {
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    background-color: #0D28A6;
+    padding-top: 20px;
+    font-family: Arial;
+  }
+
+  .sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #FFFFFF;
+    display: block;
+  }
+
+  .sidebar img {
+    padding: 10px 15px;
+
+  }
+
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
