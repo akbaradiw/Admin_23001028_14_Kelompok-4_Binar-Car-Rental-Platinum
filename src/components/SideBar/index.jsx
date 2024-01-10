@@ -4,7 +4,22 @@ import square from "../../assets/squareside.png"
 import dashboard_img from "../../assets/dashboard_logo.png"
 import car_img from "../../assets/car_logo.png"
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import SideDashboard from "../SideDashboard";
+import SideCar from "../SideCar";
+
 const SideBar = () => {
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [showBar, setShowBar] = useState(false);
+
+  const hiddenSideBar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
+  const hiddenSide = () => {
+    setShowBar (!showBar);
+  };
+
 
     return (
 <div>
@@ -12,15 +27,19 @@ const SideBar = () => {
   <div>
   <img src={square} alt="gadogado"/>
   </div>
-  <Link to={"/"}>
+  <div>
+  {showSidebar && <SideDashboard />}
   <img src={dashboard_img} alt="home"/>
-  <a href=""> Dashboard </a>
-  </Link>
-  <Link to={"/car"}>
+  <p id="text-dashboard"  onClick={hiddenSideBar}> Dashboard </p>
+  </div>
+  <div>
+  {showBar && <SideCar />}
   <img src={car_img}  alt="carr"/>
-  <a href="#" id="mobil" >Cars</a>
-  </Link>
+  <p id="text-cars" onClick={hiddenSide}> Cars </p>
+  </div>
+  
 </div>
+
 </div>
     )
 }

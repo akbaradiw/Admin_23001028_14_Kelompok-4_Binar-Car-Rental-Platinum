@@ -1,12 +1,14 @@
 import React from "react"
 import SideBar from "../../components/SideBar"
+import NavBar from "../../components/NavBar"
+
 
 const AddPage = () => {
 
     return (
         <div>
-            <h1>Add Page</h1>
             <SideBar />
+            <NavBar />
         </div>
     )
 }

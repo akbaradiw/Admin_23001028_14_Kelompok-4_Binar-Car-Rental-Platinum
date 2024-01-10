@@ -1,0 +1,22 @@
+.side-car {
+    display: grid;
+    justify-content: center;
+    padding: 10px 60px 500px;
+    margin-left: 100px;
+    background-color: white;
+    position: fixed;
+    font-family: Arial;    
+}
+
+.side-car p {
+    color: gray;
+    margin-right: 25px
+    
+    
+   
+}
+
+.side-car a {
+  color: black;
+    
+}
