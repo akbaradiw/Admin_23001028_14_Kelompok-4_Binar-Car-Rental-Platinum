@@ -1,15 +1,16 @@
 import React from "react"
 import "./style.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const SideCar = () => {
-
+  const navigate = useNavigate();
     return (
         <div class="side-car">
         <p> CARS </p>
-        <Link to={"car"}>
-        <a href="">Cars</a>  
-        </Link>
+        <div onClick={() => navigate("/cars")}>
+          <a href="">Cars</a>  
+        </div>
 
       </div>
     )

@@ -9,7 +9,6 @@ const CarPage = () => {
         <div>
              <SideBar />
              <NavBar/>
-             <CarCard/>
         </div>
     )
 }

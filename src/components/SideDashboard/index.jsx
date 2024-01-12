@@ -1,17 +1,19 @@
 import React from "react"
 import "./style.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 
 
 const SideDashboard = () => {
+  const navigate = useNavigate();
 
     return (
-        <div class="side-dashboard">
+      <div class="side-dashboard">
         <p> DASHBOARD </p>
-        <Link to={"/"}>
-        <a>Dashboard</a>  
-        </Link>
+          <div onClick={() => navigate("/dashboard")}>
+            <a>Dashboard</a>
+          </div>
 
       </div>
     )

@@ -15,8 +15,8 @@ function App() {
     
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<DashboardPage />} />  
-      <Route path="/car" element={<CarPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />  
+      <Route path="/cars" element={<CarPage />} />
       <Route path="/add" element={<AddPage />} />
       <Route path="/edit" element={<EditPage />} />
      <Route path="/login" element={<LoginPage />} />

@@ -9,38 +9,46 @@ import SideDashboard from "../SideDashboard";
 import SideCar from "../SideCar";
 
 const SideBar = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [showBar, setShowBar] = useState(false);
+  const [menuBar , setMenuBar] = useState("dashboard");
 
-  const hiddenSideBar = () => {
-    setShowSidebar(!showSidebar);
+
+  const showCarMenu = () => {
+    setMenuBar("car")
   };
 
-  const hiddenSide = () => {
-    setShowBar (!showBar);
+  const showDashboardMenu = () => {
+    setMenuBar("dashboard")
   };
-
 
     return (
-<div>
-<div class="sidebar">
-  <div>
-  <img src={square} alt="gadogado"/>
-  </div>
-  <div>
-  {showSidebar && <SideDashboard />}
-  <img src={dashboard_img} alt="home"/>
-  <p id="text-dashboard"  onClick={hiddenSideBar}> Dashboard </p>
-  </div>
-  <div>
-  {showBar && <SideCar />}
-  <img src={car_img}  alt="carr"/>
-  <p id="text-cars" onClick={hiddenSide}> Cars </p>
-  </div>
-  
-</div>
+      <div>
+        <div className="sidebar">
+          <div>
+            <img src={square} alt="gadogado"/>
+          </div>
+          <div>
+            <div className="menu-nav">
+              {
+                menuBar === "dashboard" ? <SideDashboard /> 
+                : menuBar === "car" ? <SideCar /> : null
+              }
+            </div>
+            <div onClick={showDashboardMenu}>
+              <img src={dashboard_img} alt="home"/>
+              <p id="text-dashboard"> Dashboard </p>
+            </div>
+          </div>
+          <div>
+            <div onClick={showCarMenu}>
+              <img src={car_img}  alt="carr"/>
+              <p id="text-cars"> Cars </p>
+            </div>
+          </div>
+        </div>
 
-</div>
+        
+        
+      </div>
     )
 }
 
