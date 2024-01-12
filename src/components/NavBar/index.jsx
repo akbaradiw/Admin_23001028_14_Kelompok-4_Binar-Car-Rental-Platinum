@@ -7,7 +7,7 @@ import "./style.css";
 const NavBar = () => {
     return (
         <div>
-        <Navbar  class="navbar">
+        <Navbar  className="navbar">
           <Form inline>
             <Row>
               <Col xs="auto">
@@ -31,11 +31,11 @@ const NavBar = () => {
           </Form>
         </Navbar>
 
-{/* <nav class="navbar bg-body-tertiary">
-  <div class="container-fluid  justify-content-end">
-    <a class="navbar-brand">Navbar</a>
-    <form class="d-flex" role="search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
+{/* <nav className="navbar bg-body-tertiary">
+  <div className="container-fluid  justify-content-end">
+    <a className="navbar-brand">Navbar</a>
+    <form className="d-flex" role="search">
+      <button className="btn btn-outline-success" type="submit">Search</button>
     </form>
   </div>
 </nav> */}

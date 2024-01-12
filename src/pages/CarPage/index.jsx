@@ -1,7 +1,8 @@
 import React from "react"
 import SideBar from "../../components/SideBar"
-import CarCard from "../../components/CarCard"
 import NavBar from "../../components/NavBar"
+import './style.css'
+import ListCar from "../../components/ListCar"
 
 const CarPage = () => {
 
@@ -9,6 +10,9 @@ const CarPage = () => {
         <div>
              <SideBar menu={"car"}/>
              <NavBar/>
+             <div className="page-car">
+                <ListCar/>
+             </div>
         </div>
     )
 }

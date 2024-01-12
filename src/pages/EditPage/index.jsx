@@ -15,7 +15,7 @@ return (
  <NavBar/>
  <h1>EDIT CAR</h1>
 
- <div class="edit">
+ <div className="edit">
  <Form >
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
         <Form.Label column sm="2">

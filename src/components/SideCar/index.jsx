@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 const SideCar = () => {
   const navigate = useNavigate();
     return (
-        <div class="side-car">
+        <div className="side-car">
         <p> CARS </p>
         <div onClick={() => navigate("/cars")}>
-          <a>Cars</a>  
+          <a>List Cars</a>  
         </div>
 
       </div>

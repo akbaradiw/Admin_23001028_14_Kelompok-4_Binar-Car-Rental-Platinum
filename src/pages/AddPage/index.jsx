@@ -14,7 +14,7 @@ const AddPage = () => {
             <SideBar />
             <NavBar />
             <h1> ADD NEW CAR</h1>
- <div class="add-car">   
+ <div className="add-car">   
  <Form >
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
         <Form.Label column sm="2">

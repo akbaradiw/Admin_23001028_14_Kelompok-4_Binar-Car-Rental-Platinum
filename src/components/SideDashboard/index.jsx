@@ -9,7 +9,7 @@ const SideDashboard = () => {
   const navigate = useNavigate();
 
     return (
-      <div class="side-dashboard">
+      <div className="side-dashboard">
         <p> DASHBOARD </p>
           <div onClick={() => navigate("/dashboard")}>
             <a>Dashboard</a>
