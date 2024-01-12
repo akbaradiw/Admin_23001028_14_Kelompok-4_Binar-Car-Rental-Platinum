@@ -7,7 +7,7 @@ const CarPage = () => {
 
     return (
         <div>
-             <SideBar />
+             <SideBar menu={"car"}/>
              <NavBar/>
         </div>
     )

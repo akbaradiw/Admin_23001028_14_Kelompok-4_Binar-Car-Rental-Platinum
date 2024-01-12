@@ -9,7 +9,7 @@ const SideCar = () => {
         <div class="side-car">
         <p> CARS </p>
         <div onClick={() => navigate("/cars")}>
-          <a href="">Cars</a>  
+          <a>Cars</a>  
         </div>
 
       </div>
