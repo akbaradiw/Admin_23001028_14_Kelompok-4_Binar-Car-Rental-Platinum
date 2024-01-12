@@ -1,16 +1,16 @@
 .side-car {
-    display: grid;
-    justify-content: center;
-    padding: 10px 60px 500px;
-    margin-left: 100px;
+   margin: 0px 100px 0px;
     background-color: white;
     position: fixed;
     font-family: Arial;    
+    height: 100%;
 }
 
 .side-car p {
     color: gray;
-    margin-right: 25px
+    margin-bottom: 0px;
+    margin-right: 20px;
+    padding: 15px 110px;
     
     
    
@@ -18,5 +18,6 @@
 
 .side-car a {
   color: black;
+  padding: 0px 57px;
     
 }

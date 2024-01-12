@@ -10,7 +10,7 @@ const SideDashboard = () => {
         <div class="side-dashboard">
         <p> DASHBOARD </p>
         <Link to={"/"}>
-        <a href="">Dashboard</a>  
+        <a>Dashboard</a>  
         </Link>
 
       </div>

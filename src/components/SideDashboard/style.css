@@ -1,17 +1,19 @@
 .side-dashboard {
-    display: grid;
-    justify-content: end;
-    padding: 10px 20px 500px;
     margin-left: 100px;
     background-color: white;
     position: fixed;
-    font-family: Arial;    
+    font-family: Arial;
+    height: 100%;    
 }
 
 .side-dashboard p {
     color: gray;
+    margin-bottom: 0px;
+    margin-right: 20px;
+    padding: 15px 89px;
 }
 
 .side-dashboard a {
     color: black;
+    padding: 0px 48px;
 }
