@@ -6,7 +6,7 @@ const DashboardPage = () => {
 
     return (
         <div>        
-            <SideBar />
+            <SideBar menu={"dashboard"} />
             <NavBar/>
         </div>
        

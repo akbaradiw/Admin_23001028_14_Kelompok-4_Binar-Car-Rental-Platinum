@@ -8,8 +8,8 @@ import { useState } from "react";
 import SideDashboard from "../SideDashboard";
 import SideCar from "../SideCar";
 
-const SideBar = () => {
-  const [menuBar , setMenuBar] = useState("dashboard");
+const SideBar = ({menu}) => {
+  const [menuBar , setMenuBar] = useState(menu);
 
 
   const showCarMenu = () => {
