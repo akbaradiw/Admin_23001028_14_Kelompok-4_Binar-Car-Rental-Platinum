@@ -1,13 +1,48 @@
 import React from "react"
 import SideBar from "../../components/SideBar"
 import NavBar from "../../components/NavBar"
-import {Form, Dropdown, DropdownButton, Col, Row} from 'react-bootstrap';
+import {Form, Dropdown, DropdownButton, Col, Row, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "./style.css";
+import {useNavigate} from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 
 
 const AddPage = () => {
+
+  const[addForm, setAddForm] = useState({
+    name: "",
+    type: "",
+    price: "",
+    photo: "",
+    category: ""
+  })
+
+  const handleAddFormChange = (e) => {
+    setAddForm({
+      ...addForm,
+      [event.target.name]: event.target.value
+    })
+  }
+
+  const handleSubmitForm = (e) => {
+    const token = localStorage.getItem("accesToken")
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    }
+    axios
+    .post("https://api-car-rental.binaracademy.org/admin/car" , addForm, config)
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => 
+      console.log(err)
+    )                                  
+  }
 
     return (
         <div>
@@ -21,7 +56,7 @@ const AddPage = () => {
           Nama/Tipe Mobil
         </Form.Label>
         <Col sm="10">
-          <Form.Control type="input" placeholder="Input Nama/Tipe Mobil"  />
+          <Form.Control type="input" name="name" placeholder="Input Nama/Tipe Mobil"  onChange={handleAddFormChange} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
@@ -72,6 +107,7 @@ const AddPage = () => {
         </Col>
       </Form.Group>
     </Form>
+    <Button onClick={handleSubmitForm}>test</Button>
     </div>
         </div>
     )
