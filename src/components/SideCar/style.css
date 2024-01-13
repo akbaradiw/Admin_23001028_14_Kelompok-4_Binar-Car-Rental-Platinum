@@ -1,23 +1,23 @@
 .side-car {
-   margin: 0px 100px 0px;
-    background-color: white;
-    position: fixed;
-    font-family: Arial;    
-    height: 100%;
+  margin: 0px 100px 0px;
+   background-color: white;
+   position: fixed;
+   font-family: Arial;    
+   height: 100%;
 }
 
 .side-car p {
-    color: gray;
-    margin-bottom: 0px;
-    margin-right: 63px;
-    padding: 15px 11px;
-    
-    
+   color: gray;
+   margin-bottom: 0px;
+   margin-right: 63px;
+   padding: 15px 11px;
    
+   
+  
 }
 
 .side-car a {
-  color: black;
-  padding: 0px 7px;
-    
+ color: black;
+ padding: 0px 7px;
+   
 }
