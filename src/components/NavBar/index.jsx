@@ -2,9 +2,16 @@ import React from "react"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Navbar, Form, Button, Container, Row, Col, NavDropdown} from 'react-bootstrap/';
 import "./style.css";
+import { useNavigate } from "react-router-dom";
 
 
 const NavBar = () => {
+ const  navigate = useNavigate()
+  const role = localStorage.getItem("role")
+  const handleLogOut = () => {
+    localStorage.clear()
+    navigate('/login')
+  }
     return (
         <div>
         <Navbar  className="navbar">
@@ -22,23 +29,14 @@ const NavBar = () => {
               </Col>
               <Col xs="auto">
                 <div id="text-admin">
-              <NavDropdown  title="ADMIN" id="navbarScrollingDropdown">
-              <NavDropdown.Item  href="#action3">Logout</NavDropdown.Item>
+              <NavDropdown  title={role} id="navbarScrollingDropdown">
+              <NavDropdown.Item  onClick={handleLogOut}>Logout</NavDropdown.Item>
               </NavDropdown>
               </div>
               </Col>
             </Row>
           </Form>
         </Navbar>
-
-{/* <nav className="navbar bg-body-tertiary">
-  <div className="container-fluid  justify-content-end">
-    <a className="navbar-brand">Navbar</a>
-    <form className="d-flex" role="search">
-      <button className="btn btn-outline-success" type="submit">Search</button>
-    </form>
-  </div>
-</nav> */}
         </div>
       );
     
