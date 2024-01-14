@@ -22,7 +22,6 @@ const ListCar = () => {
   const handleQueryParam = () => {
     const category = searchParams.get("category");
     if (category) {
-      console.log(category)
       setSelectedCategory(category)
     } 
   }
