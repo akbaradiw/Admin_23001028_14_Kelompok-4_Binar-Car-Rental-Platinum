@@ -7,6 +7,7 @@ import AddPage from './pages/AddPage'
 import EditPage from './pages/EditPage'
 import LoginPage from './pages/LoginPage'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CarPage from './pages/CarPage'
 
 
 function App() {
@@ -15,11 +16,11 @@ function App() {
     
     <BrowserRouter>
     <Routes>
-      <Route path="/dashboard" element={<DashboardPage />} />  
-  
+      <Route path="/dashboard" element={<DashboardPage />} /> 
+      <Route path="/cars" element={<CarPage />} />  
       <Route path="/add" element={<AddPage />} />
       <Route path="/edit" element={<EditPage />} />
-     <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage />} />
 
     </Routes>
   </BrowserRouter>

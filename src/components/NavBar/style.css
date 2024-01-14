@@ -5,6 +5,11 @@
     margin-left: 100px;
     background-color: white;
     box-shadow: 10px;
+    z-index: 1000;
+    position: fixed;
+    width: 100%;
+    top: 0;
+
 }
 
 #text-admin {
