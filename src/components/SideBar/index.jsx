@@ -33,13 +33,13 @@ const SideBar = ({menu}) => {
                 : menuBar === "car" ? <SideCar /> : null
               }
             </div>
-            <div onClick={showDashboardMenu}>
+            <div onClick={showDashboardMenu} className="dashboard">
               <img src={dashboard_img} alt="home"/>
               <p id="text-dashboard"> Dashboard </p>
             </div>
           </div>
           <div>
-            <div onClick={showCarMenu}>
+            <div onClick={showCarMenu} className="car">
               <img src={car_img}  alt="carr"/>
               <p id="text-cars"> Cars </p>
             </div>

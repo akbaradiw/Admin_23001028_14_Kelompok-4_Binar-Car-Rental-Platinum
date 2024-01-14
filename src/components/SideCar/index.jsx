@@ -9,7 +9,7 @@ const SideCar = () => {
         <div className="side-car">
         <p> CARS </p>
         <div onClick={() => navigate("/cars")}>
-          <a>List Cars</a>  
+          <a id="list-car-button">List Cars</a>  
         </div>
 
       </div>

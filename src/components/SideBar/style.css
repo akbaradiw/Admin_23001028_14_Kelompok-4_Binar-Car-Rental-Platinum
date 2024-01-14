@@ -44,3 +44,11 @@
 .menu-nav {
   margin-top: 5px;
 }
+
+.car:hover {
+  background-color: rgb(109, 109, 109);
+}
+
+.dashboard:hover {
+  background-color: rgb(109, 109, 109);
+}
