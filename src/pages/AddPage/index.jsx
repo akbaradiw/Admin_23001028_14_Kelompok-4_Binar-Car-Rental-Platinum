@@ -1,27 +1,91 @@
 import React from "react"
 import SideBar from "../../components/SideBar"
 import NavBar from "../../components/NavBar"
-import {Form, Dropdown, DropdownButton, Col, Row} from 'react-bootstrap';
+import {Form, Dropdown, DropdownButton, Col, Row, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import "./style.css";
+import "./style.css"
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
 const AddPage = () => {
+  const [file, setFile] = useState(0)
+  const [prevFile, setPrevFile] = useState(null)
 
-    return (
-        <div>
-            <SideBar />
-            <NavBar />
-            <h1> ADD NEW CAR</h1>
- <div class="add-car">   
+  const[addForm, setAddForm] = useState({
+    name: "",
+    price: "",
+    photo: "",
+    category: ""
+  })
+
+const navigate = useNavigate();
+
+
+  const handleAddFormChange = (e) => {
+  const { name, value } = event.target  
+    setAddForm({
+      ...addForm,
+      [name]: value,
+    })
+  }
+
+  const handleImage = (e) => {
+    const extend = e.target.files[0]?.type.split("/")[1]
+    const allowedExten = ["png", "jpeg", ]
+    const allowedSize = 1024 * 1024;
+    const data = e.target.files[0]
+  
+
+if (!allowedExten.includes(extend)) {
+  alert ("File bukan gambar")
+} else if (data.size > allowedSize) {
+  alert ("File terlalu besar")
+}
+else {
+  console.log(e.target.files[0])
+  setFile(e.target.files[0])
+  setPrevFile(URL.createObjectURL(e.target.files[0]))
+}
+  }
+
+  const handleSubmitForm = async () => {
+    try {
+      const config = {
+        headers: {
+          access_token: localStorage.getItem("accessToken") ,
+        },
+      }
+      const addCarResponse = await axios.post(
+        "https://api-car-rental.binaracademy.org/admin/car",
+        addForm,
+        config
+      )
+      console.log(addCarResponse)
+      // navigate("/cars")
+    }
+     catch (err) {
+      console.log(err)
+  }
+}
+
+
+
+  return (
+   <div>
+      <SideBar />
+      <NavBar />
+    <h1> ADD NEW CAR</h1>
+   <div className="add-car">   
  <Form >
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
         <Form.Label column sm="2">
           Nama/Tipe Mobil
         </Form.Label>
         <Col sm="10">
-          <Form.Control type="input" placeholder="Input Nama/Tipe Mobil"  />
+          <Form.Control type="input" name="name" value={addForm.name} placeholder="Input Nama/Tipe Mobil" onChange={handleAddFormChange}   />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
@@ -29,7 +93,7 @@ const AddPage = () => {
           Harga
         </Form.Label>
         <Col sm="10">
-          <Form.Control type="input" placeholder="Input Harga Sewa Mobil" />
+          <Form.Control type="input" name="price" value={addForm.price} placeholder="Input Harga Sewa Mobil" onChange={handleAddFormChange}  />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
@@ -37,7 +101,8 @@ const AddPage = () => {
           Foto
         </Form.Label>
         <Col sm="10">
-          <Form.Control type="Input" placeholder="Upload Foto Mobil"  />
+          <Form.Control type="file" placeholder="Upload Foto Mobil" onChange={handleImage} value={addForm.photo} />
+          <img style={{width: 200, height: 200}} src={prevFile}/>
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
@@ -45,13 +110,13 @@ const AddPage = () => {
           Kategori
         </Form.Label>
         <Col sm="10">
+     <Form.Select value={addForm.category} onChange={handleAddFormChange} aria-label="Default select example">
+      <option value="">Pilih Kategori Mobil</option>
+      <option value="Small">Small</option>
+      <option value="Medium">Medium</option>
+      <option value="Large">Large</option>
+    </Form.Select>
         <div>
-        <DropdownButton variant="light"
-          title="Pilih Kategori Mobil"
-        >
-          <Dropdown.Item eventKey="1">Action 1</Dropdown.Item>
-          <Dropdown.Item eventKey="2">Action 2</Dropdown.Item>
-        </DropdownButton>
       </div>
         </Col>
       </Form.Group>
@@ -72,9 +137,12 @@ const AddPage = () => {
         </Col>
       </Form.Group>
     </Form>
+    <Button onClick={handleSubmitForm}>klik</Button>
+
     </div>
         </div>
     )
 }
+
 
 export default AddPage
