@@ -38,14 +38,13 @@ const ListCar = () => {
 
   const handleFilter = async (categoryValue) => {
     try {
-      const cars = await getCarsAPI(categoryValue)
-      dispatch(getCars(cars))
+      const list_car = await getCarsAPI(categoryValue)
+      dispatch(getCars(list_car))
+      setSelectedCategory(categoryValue);
+      setSearchParams({category: categoryValue})
     } catch (error) {
       console.log(error)
     }
-    setSelectedCategory(categoryValue);
-    setSearchParams({category: categoryValue})
-
   };
 
   const buttonRendered = () => {
@@ -89,11 +88,18 @@ const ListCar = () => {
 
       <div className="mt-3">
         <div className="row">
-          {cars.list_car.map((car, index) => (
-            <div className="col-4 mb-4" key={index}>
-              <CarCard car={car} />
-            </div>
-          ))}
+          {
+            cars.list_car.length > 0 ? (
+              cars.list_car.map((car, index) => (
+                <div className="col-4 mb-4" key={index}>
+                  <CarCard car={car} />
+                </div>
+              ))) : (
+                <div className="col-12 text-center">
+                  <h1>Data Tidak Ditemukan</h1>
+                </div>
+              )
+          }
         </div>
       </div>
     </div>
