@@ -11,6 +11,8 @@ import { getCars } from "../../redux/cars/carSlice";
 import getCarsAPI from "../../api/getListCar";
 import { setMessage } from "../../redux/message/messageSlice";
 import { useNavigate } from "react-router-dom";
+import imageCarDummy from "../../assets/bannerlogin.png"
+
 
 const CarCard = ({ car }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -61,7 +63,7 @@ const CarCard = ({ car }) => {
           deleteMessageSuccess: false,
           deleteMessageError: false
         }));
-      }, 1000);
+      }, 2000);
     } catch (error) {
       console.error("Error deleting car:", error);
       dispatch(setMessage({
@@ -73,7 +75,7 @@ const CarCard = ({ car }) => {
           deleteMessageSuccess: false,
           deleteMessageError: false
         }));
-      }, 1000);
+      }, 2000);
     }
   };
 
@@ -99,10 +101,14 @@ const CarCard = ({ car }) => {
 
   return (
     <>
-      {/* {carDeletedMessage && <div className="alert alert-success">{carDeletedMessage}</div>}
-      {carDeletedMessageError && <div className="alert alert-danger">{carDeletedMessageError}</div>} */}
       <Card className="">
-        <Card.Img src={car.image} variant="top" style={{ height: "250px" }} />
+        {
+          car.image === null ? (
+            <Card.Img src={imageCarDummy} variant="top" style={{ height: "250px" }}/>
+          ) : (
+            <Card.Img src={car.image} variant="top" style={{ height: "250px" }}/>
+          )
+        }
         <Card.Body>
           <Card.Text>{car.name}</Card.Text>
           <Card.Title>{rupiah(car.price)}</Card.Title>
@@ -162,7 +168,7 @@ const CarCard = ({ car }) => {
             <Button
               variant="outline-primary"
               style={{ width: "87px", height: "36px" }}
-              onClick={() => handleCloseDeleteConfirmation}
+              onClick={() => handleCloseDeleteConfirmation()}
             >
               <b>Tidak</b>
             </Button>

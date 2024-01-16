@@ -72,8 +72,12 @@ const ListCar = () => {
           <b>Car &gt;</b> List Car
         </p>
       </div>
-      {message.deleteMessageSuccess && <div className="alert alert-danger text-center">Car has successfully been deleted!</div>}
-      {message.deleteMessageError && <div className="alert alert-danger text-center">Car has failed been deleted!</div>}
+      {message.deleteMessageSuccess && (
+        <div className="d-flex justify-content-center">
+          <div className="success-delete"><b>Data Berhasil Dihapus</b></div>
+        </div>
+      )}
+      
       <div className="d-flex justify-content-between">
         <p className="h3">List Car</p>
 
