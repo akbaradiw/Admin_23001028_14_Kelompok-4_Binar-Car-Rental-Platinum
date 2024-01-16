@@ -10,11 +10,13 @@ import { useDispatch } from "react-redux";
 import { getCars } from "../../redux/cars/carSlice";
 import getCarsAPI from "../../api/getListCar";
 import { setMessage } from "../../redux/message/messageSlice";
-
+import { useNavigate } from "react-router-dom";
 
 const CarCard = ({ car }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const getCarsData = async () => {
     try {
@@ -121,7 +123,7 @@ const CarCard = ({ car }) => {
               </Button>
             </div>
             <div className="col-6">
-              <Button variant="success" className="button-100">
+              <Button onClick={() => navigate(`/edit/${car.id}`)} variant="success" className="button-100">
                 Edit
               </Button>
             </div>

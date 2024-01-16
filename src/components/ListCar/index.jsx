@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
 import getCarsAPI from "../../api/getListCar";
 import { getCars } from "../../redux/cars/carSlice";
+import { useNavigate } from "react-router-dom";
 
 const ListCar = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -13,6 +14,8 @@ const ListCar = () => {
   const message = useSelector((state) => state.messages);
   const [searchParams, setSearchParams] = useSearchParams()
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     handleQueryParam()
@@ -74,7 +77,7 @@ const ListCar = () => {
       <div className="d-flex justify-content-between">
         <p className="h3">List Car</p>
 
-        <Button>+ Add New Car</Button>
+        <Button onClick={() => navigate("/add")}>+ Add New Car</Button>
       </div>
       <br />
 
