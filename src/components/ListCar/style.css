@@ -1,1 +1,18 @@
 
+.success-delete {
+    width: 60%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.success-add {
+    width: 60%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+}

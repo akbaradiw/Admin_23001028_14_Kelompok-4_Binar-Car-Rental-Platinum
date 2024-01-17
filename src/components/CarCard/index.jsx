@@ -10,11 +10,15 @@ import { useDispatch } from "react-redux";
 import { getCars } from "../../redux/cars/carSlice";
 import getCarsAPI from "../../api/getListCar";
 import { setMessage } from "../../redux/message/messageSlice";
+import { useNavigate } from "react-router-dom";
+import imageCarDummy from "../../assets/bannerlogin.png"
 
 
 const CarCard = ({ car }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const getCarsData = async () => {
     try {
@@ -59,7 +63,7 @@ const CarCard = ({ car }) => {
           deleteMessageSuccess: false,
           deleteMessageError: false
         }));
-      }, 1000);
+      }, 2000);
     } catch (error) {
       console.error("Error deleting car:", error);
       dispatch(setMessage({
@@ -71,7 +75,7 @@ const CarCard = ({ car }) => {
           deleteMessageSuccess: false,
           deleteMessageError: false
         }));
-      }, 1000);
+      }, 2000);
     }
   };
 
@@ -97,10 +101,14 @@ const CarCard = ({ car }) => {
 
   return (
     <>
-      {/* {carDeletedMessage && <div className="alert alert-success">{carDeletedMessage}</div>}
-      {carDeletedMessageError && <div className="alert alert-danger">{carDeletedMessageError}</div>} */}
       <Card className="">
-        <Card.Img src={car.image} variant="top" style={{ height: "250px" }} />
+        {
+          car.image === null ? (
+            <Card.Img src={imageCarDummy} variant="top" style={{ height: "250px" }}/>
+          ) : (
+            <Card.Img src={car.image} variant="top" style={{ height: "250px" }}/>
+          )
+        }
         <Card.Body>
           <Card.Text>{car.name}</Card.Text>
           <Card.Title>{rupiah(car.price)}</Card.Title>
@@ -117,12 +125,19 @@ const CarCard = ({ car }) => {
           <div className="row">
             <div className="col-6">
               <Button variant="outline-danger" className="button-100" onClick={() => handleDeleteCar()}>
-                Delete
+                  <div className="d-flex justify-content-center gap-2">
+                  <p className="m-0"><i class="bi bi-trash h5"></i></p>
+                  <p className="m-0"><b>Delete</b></p>
+                </div>
               </Button>
             </div>
             <div className="col-6">
-              <Button variant="success" className="button-100">
-                Edit
+              <Button onClick={() => navigate(`/edit/${car.id}`)} variant="success" className="button-100">
+                
+                <div className="d-flex justify-content-center gap-2">
+                  <p className="m-0"><i class="bi bi-pencil-square h5"></i></p>
+                  <p className="m-0"><b>Edit</b></p>
+                </div>
               </Button>
             </div>
           </div>
@@ -160,7 +175,7 @@ const CarCard = ({ car }) => {
             <Button
               variant="outline-primary"
               style={{ width: "87px", height: "36px" }}
-              onClick={() => handleCloseDeleteConfirmation}
+              onClick={() => handleCloseDeleteConfirmation()}
             >
               <b>Tidak</b>
             </Button>

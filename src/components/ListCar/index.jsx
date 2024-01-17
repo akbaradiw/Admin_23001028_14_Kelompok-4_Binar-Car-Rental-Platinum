@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
 import getCarsAPI from "../../api/getListCar";
 import { getCars } from "../../redux/cars/carSlice";
+import { useNavigate } from "react-router-dom";
 
 const ListCar = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -13,6 +14,8 @@ const ListCar = () => {
   const message = useSelector((state) => state.messages);
   const [searchParams, setSearchParams] = useSearchParams()
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     handleQueryParam()
@@ -35,14 +38,13 @@ const ListCar = () => {
 
   const handleFilter = async (categoryValue) => {
     try {
-      const cars = await getCarsAPI(categoryValue)
-      dispatch(getCars(cars))
+      const list_car = await getCarsAPI(categoryValue)
+      dispatch(getCars(list_car))
+      setSelectedCategory(categoryValue);
+      setSearchParams({category: categoryValue})
     } catch (error) {
       console.log(error)
     }
-    setSelectedCategory(categoryValue);
-    setSearchParams({category: categoryValue})
-
   };
 
   const buttonRendered = () => {
@@ -69,12 +71,16 @@ const ListCar = () => {
           <b>Car &gt;</b> List Car
         </p>
       </div>
-      {message.deleteMessageSuccess && <div className="alert alert-danger text-center">Car has successfully been deleted!</div>}
-      {message.deleteMessageError && <div className="alert alert-danger text-center">Car has failed been deleted!</div>}
+      {message.deleteMessageSuccess && (
+        <div className="d-flex justify-content-center">
+          <div className="success-delete"><b>Data Berhasil Dihapus</b></div>
+        </div>
+      )}
+      
       <div className="d-flex justify-content-between">
         <p className="h3">List Car</p>
 
-        <Button>+ Add New Car</Button>
+        <Button onClick={() => navigate("/add")}>+ Add New Car</Button>
       </div>
       <br />
 
@@ -82,11 +88,18 @@ const ListCar = () => {
 
       <div className="mt-3">
         <div className="row">
-          {cars.list_car.map((car, index) => (
-            <div className="col-4 mb-4" key={index}>
-              <CarCard car={car} />
-            </div>
-          ))}
+          {
+            cars.list_car.length > 0 ? (
+              cars.list_car.map((car, index) => (
+                <div className="col-4 mb-4" key={index}>
+                  <CarCard car={car} />
+                </div>
+              ))) : (
+                <div className="col-12 text-center">
+                  <h1>Data Tidak Ditemukan</h1>
+                </div>
+              )
+          }
         </div>
       </div>
     </div>
