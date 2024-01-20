@@ -44,8 +44,8 @@ const AddPage = () => {
       return
     } else {
       console.log(e.target.files[0]);
-      setFile(e.target.files[0]);
-      setPrevFile(URL.createObjectURL(e.target.files[0]));
+      // setFile(e.target.files[0]);
+      setFile(URL.createObjectURL(e.target.files[0]));
       setAddForm({
         ...addForm,
          image:data
@@ -138,7 +138,7 @@ const AddPage = () => {
                 onChange={handleImage}
                 // value={addForm.photo}
               />
-              <img style={{ width: 200, height: 200 }} src={prevFile} />
+              {/* <img style={{ width: 200, height: 200 }} src={prevFile} /> */}
             </Col>
           </Form.Group>
           <Form.Group
@@ -158,9 +158,9 @@ const AddPage = () => {
                   aria-label="Default select example"
                 >
                   <option value="">Pilih Kategori Mobil</option>
-                  <option value="Small">Small</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Large">Large</option>
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
                 </Form.Select>
               </div>
             </Col>

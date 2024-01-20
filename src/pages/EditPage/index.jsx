@@ -1,24 +1,21 @@
 import React from "react";
 import SideBar from "../../components/SideBar";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row, Alert } from "react-bootstrap";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "../../components/NavBar";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const EditPage = () => {
   const navigate = useNavigate();
   const [editFile, setEditFile] = useState(0);
-  const [prevEditFile, setPrevEditFile] = useState(null);
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
-
+  const [lock, setLock] = useState({});
+  const [toastAlert, setToastAlert] = useState(false);
+  const message = useSelector((state) => state.messages);
   const { id } = useParams();
-  // console.log(id);
 
   const [editForm, setEditForm] = useState({
     name: "",
@@ -29,7 +26,7 @@ const EditPage = () => {
 
   useEffect(() => {
     carDetail();
-  });
+  }, []);
 
   const carDetail = async () => {
     const token = localStorage.getItem("accessToken");
@@ -44,6 +41,9 @@ const EditPage = () => {
         `https://api-car-rental.binaracademy.org/admin/car/${id}`,
         config
       );
+      if (res.data.image != null) {
+        res.data.image = await onImageEdit(res.data.image)
+      }
       console.log(res);
       setEditForm(res.data);
     } catch (err) {
@@ -59,77 +59,43 @@ const EditPage = () => {
     });
   };
 
-  // const carDetail = async () => {
-  //   try {
-  //     // Set up the request headers with the access token
-  //     const config = {
-  //       headers: {
-  //         access_token: localStorage.getItem("accessToken"),
-  //       },
-  //     };
-
-  //     // Make a GET request using Axios
-  //     const res = await axios.get(`https://api-car-rental.binaracademy.org/admin/car/${id}`, config);
-
-  //     // Log the response to the console
-  //     console.log(res);
-
-  //     // Update state variables with data from the response
-  //     setName(res.data.name);
-  //     setCategory(res.data.category);
-  //     setPrice(res.data.price);
-  //     setImage(res.data.image);
-  //   } catch (err) {
-  //     // Log any errors that occur during the request
-  //     console.log(err);
-  //   }
-  // }
-
-  // const detailCar = async () => {
-  //   try {
-  //    const config = {
-  //       headers: {
-  //         access_token: localStorage.getItem("accessToken") ,
-  //         "Content-Type": "application/json",
-  //       },
-  //     }
-  //     const res = await axios.get(`https://api-car-rental.binaracademy.org/admin/car/${id}`, config);
-  //     console.log(res);
-  //     setName(res.data.name);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const handleEditChange = (e) => {
-  //   const { name, value } = event.target
-  //       setEditForm({
-  //         ...editForm,
-  //         [name]: value,
-  //       })
-  //     }
-
   const editButton = async () => {
+    // console.log(editForm);
+    // kalau misal error form datanya pindah ke atas config
+    var token = localStorage.getItem("accessToken");
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        access_token: `${token}`,
+      },
+    };
+
+    console.log(editForm);
+
     try {
-      const config = {
-        headers: {
-          access_token: localStorage.getItem("accessToken"),
-          "Content-Type": "multipart/form-data",
-        },
-      };
+      // const config = {
+      //   headers: {
+      //     access_token: localStorage.getItem("accessToken"),
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // };
+
       const formData = new FormData();
       formData.append("name", editForm.name);
       formData.append("price", editForm.price);
       formData.append("image", editForm.image);
       formData.append("category", editForm.category);
 
+      // console.log(formData);
+
       const editCarResponse = await axios.put(
         `https://api-car-rental.binaracademy.org/admin/car/${id}`,
-        config,
-        formData
+        formData,
+        config
       );
       console.log(editCarResponse);
       navigate("/cars");
+      setToastAlert(true);
     } catch (err) {
       // console.log(err)
     }
@@ -146,17 +112,51 @@ const EditPage = () => {
     } else if (data.size > allowedSize) {
       alert("File terlalu besar");
     } else {
-      console.log(e.target.files[0]);
-      editFile(e.target.files[0]);
-      setEditFile(URL.createObjectURL(e.target.files[0]));
+      setEditForm({
+        ...editForm,
+        image: data,
+      });
+      editFile(URL.createObjectURL(e.target.files[0]));
+      setLock({ ...lock, image: e.target.files[0] });   
     }
   };
+
+    const onImageEdit = async (imgUrl) => {
+      var imgExt = getUrlExtension(imgUrl);
+      const response = await fetch(imgUrl, {mode: 'no-cors'});
+      const blob = await response.blob();
+      const file = new File([blob], "profileImage." + imgExt, {
+        type: blob.type,
+      });
+
+      return file;
+  }
+
+  const getUrlExtension = (url) => {
+    return url
+      .split(/[#?]/)[1]
+      .split(".")
+      .pop()
+      .trim();
+  }
 
   return (
     <div>
       <SideBar />
       <NavBar />
       <h1>EDIT CAR</h1>
+      
+      {toastAlert && (
+              <Alert variant="success" className="alert-seccess">
+                Berhasil Edit Data
+              </Alert>
+            )}
+      
+         {message.deleteMessageSuccess && (
+        <div className="d-flex justify-content-center">
+          <div className="success-delete"><b>Data Berhasil Dihapus</b></div>
+        </div>
+      )}
 
       <div className="edit">
         <Form>
@@ -203,7 +203,7 @@ const EditPage = () => {
                 // value={image}
                 onChange={editImage}
               />
-              <img style={{ width: 200, height: 200 }} src={prevEditFile} />
+              {/* <img style={{ width: 200, height: 200 }} src={prevEditFile} /> */}
             </Col>
           </Form.Group>
           <Form.Group
@@ -217,14 +217,15 @@ const EditPage = () => {
             <Col sm="10">
               <div>
                 <Form.Select
+                  name="category"
                   value={editForm.category}
                   onChange={handleEditFormChange}
                   aria-label="Default select example"
                 >
                   <option value="">Pilih Kategori Mobil</option>
-                  <option value="Small">Small</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Large">Large</option>
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
                 </Form.Select>
               </div>
             </Col>

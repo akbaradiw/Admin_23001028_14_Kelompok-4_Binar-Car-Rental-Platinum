@@ -19,7 +19,7 @@ function App() {
       <Route path="/dashboard" element={<DashboardPage />} /> 
       <Route path="/cars" element={<CarPage />} />  
       <Route path="/add" element={<AddPage />} />
-      <Route path="/edit" element={<EditPage />} />
+      <Route path="/edit/:id" element={<EditPage />} />
       <Route path="/login" element={<LoginPage />} />
 
     </Routes>
