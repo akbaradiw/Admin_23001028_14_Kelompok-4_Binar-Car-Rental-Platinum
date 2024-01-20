@@ -1,22 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Table, Pagination, Form, InputGroup, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSort,
+  faSortUp,
+  faSortDown,
+} from "@fortawesome/free-solid-svg-icons";
 import "./style.css";
+import axios from "axios";
+import { useEffect } from "react";
+import moment from "moment";
 
 const TableCar = () => {
   const [sortOrder, setSortOrder] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [pageCount, setPageCount] = useState(0);
+  const [data, setData] = useState([]);
+  const [numOfPage, setNumOfPage] = useState([]);
 
   const handleSortClick = () => {
-    // setSortOrder((prevSortOrder) => {
-    //   if (prevSortOrder === "asc") return "desc";
-    //   else return "asc";
-    // });
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
   };
+
+  function formatRupiah(angka) {
+    const formatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    });
+    return formatter.format(angka);
+  }
+
+  const itemsPerPage = limit;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const fetchData = async (pageIndex, pageSize, sortBy) => {
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await axios.get(
+        `https://api-car-rental.binaracademy.org/admin/v2/order/?page=${pageIndex}&pageSize=${pageSize}&sort=${sortBy}`,
+        {
+          headers: {
+            access_token: token,
+          },
+        }
+      );
+      setCurrentPage(response.data.page);
+      setLimit(response.data.pageSize);
+      setPageCount(response.data.pageCount);
+      setData(response.data.orders);
+    } catch (error) {
+      console.error("Error fetching data from API:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage, itemsPerPage, sortOrder);
+  }, [currentPage, itemsPerPage, sortOrder]);
+
+  const initPageNumbers = useCallback((current, totalPage) => {
+    const pageNumbers = [];
+    const shownPageNumbers = 9;
+    let fromNumber = current;
+
+    let minPageNumber = totalPage - (shownPageNumbers - 1);
+    if (shownPageNumbers > totalPage) minPageNumber = 1;
+
+    if (current > minPageNumber) {
+      fromNumber = Math.min(current, minPageNumber);
+    }
+
+    for (let i = fromNumber; i <= totalPage; i++) {
+      if (pageNumbers.length < shownPageNumbers) {
+        pageNumbers.push(i);
+      } else {
+        pageNumbers.push({
+          ellipsis: true,
+          page: totalPage - shownPageNumbers,
+        });
+        pageNumbers.push(totalPage);
+        break;
+      }
+    }
+
+    if (
+      totalPage > shownPageNumbers &&
+      !pageNumbers.includes(shownPageNumbers)
+    ) {
+      pageNumbers.unshift({
+        ellipsis: true,
+        page: pageNumbers.length,
+      });
+      pageNumbers.unshift(1);
+    }
+    setNumOfPage(pageNumbers);
+  }, []);
+
+  useEffect(() => {
+    initPageNumbers(currentPage + 1, pageCount);
+  }, [initPageNumbers, currentPage, pageCount]);
+
+
 
   return (
     <>
-      <div className="d-flex-column" style={{ maxHeight: "100vh", marginTop: "80px" }}>
+      <div
+        className="d-flex-column"
+        style={{ maxHeight: "100vh", marginTop: "80px" }}
+      >
         <h3 className="title-dashboard">Dashboard</h3>
         <div className="d-flex align-items-center mt-4">
           <div className="blue-line me-2"></div>
@@ -46,41 +140,70 @@ const TableCar = () => {
                   <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
                 ) : (
                   sortOrder === "desc" && (
-                    <FontAwesomeIcon icon={faSortDown} onClick={handleSortClick} />
+                    <FontAwesomeIcon
+                      icon={faSortDown}
+                      onClick={handleSortClick}
+                    />
                   )
                 )}
-                {!sortOrder && <FontAwesomeIcon icon={faSort} onClick={handleSortClick} />}
+                {!sortOrder && (
+                  <FontAwesomeIcon icon={faSort} onClick={handleSortClick} />
+                )}
               </th>
-              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
+              <th
+                style={{ backgroundColor: "#cfd4ed" }}
+                className="text-head-table"
+              >
                 Category{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
                 ) : (
-                  <FontAwesomeIcon icon={faSortDown} onClick={handleSortClick} />
+                  <FontAwesomeIcon
+                    icon={faSortDown}
+                    onClick={handleSortClick}
+                  />
                 )}
               </th>
-              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
+              <th
+                style={{ backgroundColor: "#cfd4ed" }}
+                className="text-head-table"
+              >
                 Start Rent{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
                 ) : (
-                  <FontAwesomeIcon icon={faSortDown} onClick={handleSortClick} />
+                  <FontAwesomeIcon
+                    icon={faSortDown}
+                    onClick={handleSortClick}
+                  />
                 )}
               </th>
-              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
+              <th
+                style={{ backgroundColor: "#cfd4ed" }}
+                className="text-head-table"
+              >
                 Finish Rent{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
                 ) : (
-                  <FontAwesomeIcon icon={faSortDown} onClick={handleSortClick} />
+                  <FontAwesomeIcon
+                    icon={faSortDown}
+                    onClick={handleSortClick}
+                  />
                 )}
               </th>
-              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
+              <th
+                style={{ backgroundColor: "#cfd4ed" }}
+                className="text-head-table"
+              >
                 Price{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
                 ) : (
-                  <FontAwesomeIcon icon={faSortDown} onClick={handleSortClick} />
+                  <FontAwesomeIcon
+                    icon={faSortDown}
+                    onClick={handleSortClick}
+                  />
                 )}
               </th>
               <th
@@ -91,23 +214,26 @@ const TableCar = () => {
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
                 ) : (
-                  <FontAwesomeIcon icon={faSortDown} onClick={handleSortClick} />
+                  <FontAwesomeIcon
+                    icon={faSortDown}
+                    onClick={handleSortClick}
+                  />
                 )}
               </th>
             </tr>
           </thead>
           <tbody>
-            {/* {displayedData.map((row, index) => ( */}
-            <tr>
-              <td style={{ width: "20px", textAlign: "center" }}>1</td>
-              <td>User Email</td>
-              <td>Car</td>
-              <td>Start Rent</td>
-              <td>Finish Rent</td>
-              <td>Price</td>
-              <td>Category</td>
-            </tr>
-            {/* ))} */}
+            {data.map((row, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{row.User.email}</td>
+                <td>{row.Car ? row.Car.name : "Car"}</td>
+                <td>{moment(row.start_rent_at).format("DD MMMM YYYY")}</td>
+                <td>{moment(row.finish_rent_at).format("DD MMMM YYYY")}</td>
+                <td>{formatRupiah(row.total_price)}</td>
+                <td>{row.Category ? row.Category.name : "Category"}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
 
@@ -118,11 +244,10 @@ const TableCar = () => {
               <Form>
                 <Form.Group controlId="limitDropdown">
                   <Form.Select
-                  // value={limit}
-                  // onChange={(e) => {
-                  //   setLimit(parseInt(e.target.value, 10));
-                  //   setCurrentPage(1);
-                  // }}
+                    value={limit}
+                    onChange={(e) => {
+                      setLimit(parseInt(e.target.value, 10));
+                    }}
                   >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -139,20 +264,18 @@ const TableCar = () => {
                     <Form.Select
                       aria-label="Default select example"
                       style={{ maxWidth: "500px" }}
-                      // onChange={handleMonthChange}
+                      onChange={(e) => setCurrentPage(e.target.value)}
                       // value={selectedMonth}
                     >
-                      {/* <option value="">Select a month</option> */}
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
+                      <option value="">Select page</option>
+                     
+                      {Array.from({ length: pageCount }).map(
+                        (_, index) => (
+                          <option key={index} value={index + 1}>
+                            {index + 1}
+                          </option>
+                        )
+                      )}
                     </Form.Select>
                     <Button
                       className="go"
@@ -168,27 +291,42 @@ const TableCar = () => {
           </div>
           <div className="d-flex my-4">
             <Pagination>
-              <Pagination.First />
+              <Pagination.First onClick={() => setCurrentPage(1)} />
               <Pagination.Prev
-              // onClick={() => setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1))}
+                onClick={() =>
+                  setCurrentPage((prevPage) =>
+                    prevPage > 1 ? prevPage - 1 : 1
+                  )
+                }
               />
-              {/* {Array.from({ length: Math.ceil(data.length / limit) }).map((page, index) => ( */}
-              <Pagination.Item
-              // key={index}
-              // active={currentPage === index + 1}
-              // onClick={() => setCurrentPage(index + 1)}
-              >
-                {/* {index + 1}  */}
-              </Pagination.Item>
-              {/* ))} */}
+              {numOfPage.map((val, idx) => {
+                if (typeof val === "number") {
+                  return (
+                    <Pagination.Item
+                      key={idx}
+                      active={currentPage === val}
+                      onClick={() => setCurrentPage(val)}
+                    >
+                      {val}
+                    </Pagination.Item>
+                  );
+                } else {
+                  return (
+                    <Pagination.Ellipsis
+                      key={idx}
+                      onClick={() => setCurrentPage(val.page)}
+                    />
+                  );
+                }
+              })}
               <Pagination.Next
-              // onClick={() =>
-              //   setCurrentPage((prevPage) =>
-              //     prevPage < Math.ceil(data.length / limit) ? prevPage + 1 : prevPage
-              //   )
-              // }
+                onClick={() =>
+                  setCurrentPage(currentPage < pageCount ? currentPage + 1 : pageCount)
+                }
               />
-              <Pagination.Last />
+              <Pagination.Last
+                onClick={() => setCurrentPage(pageCount)}
+              />
             </Pagination>
           </div>
         </div>

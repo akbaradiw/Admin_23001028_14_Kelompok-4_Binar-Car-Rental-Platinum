@@ -15,11 +15,20 @@ import axios from "axios";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import "./style.css";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+ChartJS.register(
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const DataStatistic = () => {
   const [apiData, setApiData] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(moment().format("YYYY-MM"));
+  const [selectedMonth, setSelectedMonth] = useState(
+    moment().format("YYYY-MM")
+  );
   const [chartData, setChartData] = useState([]);
 
   const token = localStorage.getItem("accessToken");
@@ -27,7 +36,8 @@ const DataStatistic = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const baseUrl = "https://api-car-rental.binaracademy.org/admin/order/reports";
+        const baseUrl =
+          "https://api-car-rental.binaracademy.org/admin/order/reports";
         const fromDate = "2024-01-01";
         const untilDate = "2024-12-31";
         const fullUrl = `${baseUrl}?from=${fromDate}&until=${untilDate}`;
@@ -56,9 +66,14 @@ const DataStatistic = () => {
     if (selectedMonth) {
       const selectedYear = selectedMonth.split("-")[0];
       const selectedMonthNumber = parseInt(selectedMonth.split("-")[1]);
-      const daysInMonth = moment(`${selectedYear}-${selectedMonthNumber}`, "YYYY-MM").daysInMonth();
+      const daysInMonth = moment(
+        `${selectedYear}-${selectedMonthNumber}`,
+        "YYYY-MM"
+      ).daysInMonth();
       const datesArray = Array.from({ length: daysInMonth }, (_, i) =>
-        moment(`${selectedYear}-${selectedMonthNumber}-${i + 1}`).format("YYYY-MM-DD")
+        moment(`${selectedYear}-${selectedMonthNumber}-${i + 1}`).format(
+          "YYYY-MM-DD"
+        )
       );
 
       const chartDataMapped = datesArray.map((date) => {
@@ -108,27 +123,14 @@ const DataStatistic = () => {
         },
       },
     },
-
-    // plugins: {
-    //   title: {
-    //     display: true,
-    //     // text: "Rented Car Data Visualization",
-    //   },
-    //   tooltip: {
-    //     callbacks: {
-    //       label: (context) => {
-    //         const label = context.dataset.label || "";
-    //         if (label) {
-    //           return ` ${label}: ${context.parsed.y}`;
-    //         }
-    //         return "";
-    //       },
-    //     },
-    //   },
-    // },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (e) => {
     // Add logic to execute when the button is clicked
   };
 
@@ -138,7 +140,9 @@ const DataStatistic = () => {
         {/* TITLE */}
         <div className="d-flex align-items-center">
           <div className="blue-line me-2"></div>
-          <h2 className="sub-text-header-dashboard mb-0">Rented Car Data Visualization</h2>
+          <h2 className="sub-text-header-dashboard mb-0">
+            Rented Car Data Visualization
+          </h2>
         </div>
 
         {/* SEARCH */}
