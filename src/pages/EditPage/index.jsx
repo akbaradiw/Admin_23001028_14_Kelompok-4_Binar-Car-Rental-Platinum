@@ -1,11 +1,19 @@
 import React from "react";
 import SideBar from "../../components/SideBar";
-import { Form, Button, Col, Row, Alert } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Col,
+  Row,
+  Alert,
+  Breadcrumb,
+  Container,
+} from "react-bootstrap";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "../../components/NavBar";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -42,7 +50,7 @@ const EditPage = () => {
         config
       );
       if (res.data.image != null) {
-        res.data.image = await onImageEdit(res.data.image)
+        res.data.image = await onImageEdit(res.data.image);
       }
       console.log(res);
       setEditForm(res.data);
@@ -117,36 +125,45 @@ const EditPage = () => {
         image: data,
       });
       editFile(URL.createObjectURL(e.target.files[0]));
-      setLock({ ...lock, image: e.target.files[0] });   
+      setLock({ ...lock, image: e.target.files[0] });
     }
   };
 
-    const onImageEdit = async (imgUrl) => {
-      var imgExt = getUrlExtension(imgUrl);
-      const response = await fetch(imgUrl, {mode: 'no-cors'});
-      const blob = await response.blob();
-      const file = new File([blob], "profileImage." + imgExt, {
-        type: blob.type,
-      });
+  const onImageEdit = async (imgUrl) => {
+    var imgExt = getUrlExtension(imgUrl);
+    const response = await fetch(imgUrl, { mode: "no-cors" });
+    const blob = await response.blob();
+    const file = new File([blob], "profileImage." + imgExt, {
+      type: blob.type,
+    });
 
-      return file;
-  }
+    return file;
+  };
 
   const getUrlExtension = (url) => {
-    return url
-      .split(/[#?]/)[1]
-      .split(".")
-      .pop()
-      .trim();
-  }
+    return url.split(/[#?]/)[1].split(".").pop().trim();
+  };
 
   return (
+   
     <div>
+      <div>
       <SideBar />
       <NavBar />
-      <h1>EDIT CAR</h1>
-      
-      {toastAlert && (
+      </div>
+      <Container className="bread-edit">
+      <Breadcrumb>
+      <Breadcrumb.Item > Cars </Breadcrumb.Item>
+      <Breadcrumb.Item>
+      <Link to="/cars"> List Car </Link>
+      </Breadcrumb.Item>
+      <Breadcrumb.Item active>Edit Car</Breadcrumb.Item>
+    </Breadcrumb>
+      </Container>
+      <div className="edit-title">
+      <h3> Edit Car </h3>
+      </div>
+      {/* {toastAlert && (
               <Alert variant="success" className="alert-seccess">
                 Berhasil Edit Data
               </Alert>
@@ -156,7 +173,7 @@ const EditPage = () => {
         <div className="d-flex justify-content-center">
           <div className="success-delete"><b>Data Berhasil Dihapus</b></div>
         </div>
-      )}
+      )} */}
 
       <div className="edit">
         <Form>
@@ -247,9 +264,12 @@ const EditPage = () => {
             </Col>
           </Form.Group>
         </Form>
-        <Button onClick={editButton}>klik</Button>
+        <div className="edit-btn">
+        <Button variant="outline-primary">Cancel</Button>    
+        <Button variant="primary" onClick={editButton}>Save</Button>
+        </div>    
       </div>
-    </div>
+    </div>   
   );
 };
 

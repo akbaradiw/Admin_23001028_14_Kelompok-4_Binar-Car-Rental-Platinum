@@ -1,11 +1,24 @@
 .add-car {
     padding:50px;
-    margin: 123px 210px 0px 210px;
+    margin: 13px 210px 0px 230px;
     background-color: rgb(255, 255, 255);
 }
 
-h1 {font-size: 20px;
+.add-title {
     font-family: Arial;
-    margin:50px 240px 0px;
-}
+    margin-bottom: 30px;
+    padding-left: 230px;
+    padding-top: 10px;
+    }
     
+.bread-add {
+    padding-top: 100px;
+    margin-left: 220px;
+    
+}
+
+.btn-add {
+    display: flex;
+    gap: 25px;
+    padding: 10px 0px 0px;   
+}

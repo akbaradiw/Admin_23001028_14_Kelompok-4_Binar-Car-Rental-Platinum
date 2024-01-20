@@ -1,12 +1,12 @@
 import React from "react";
 import SideBar from "../../components/SideBar";
 import NavBar from "../../components/NavBar";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row, Breadcrumb, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const AddPage = () => {
   const [file, setFile] = useState(0);
@@ -38,60 +38,69 @@ const AddPage = () => {
 
     if (!allowedExten.includes(extend)) {
       alert("File bukan gambar");
-      return
+      return;
     } else if (data.size > allowedSize) {
       alert("File terlalu besar");
-      return
+      return;
     } else {
       console.log(e.target.files[0]);
       // setFile(e.target.files[0]);
       setFile(URL.createObjectURL(e.target.files[0]));
       setAddForm({
         ...addForm,
-         image:data
-      })
-      console.log(data)
+        image: data,
+      });
+      console.log(data);
     }
-
-    
   };
 
   const handleSubmitForm = async () => {
-      try {
-        const config = {
-          headers: {
-            access_token: localStorage.getItem("accessToken") ,
-            "Content-Type": "multipart/form-data"
-          },
-        }
+    try {
+      const config = {
+        headers: {
+          access_token: localStorage.getItem("accessToken"),
+          "Content-Type": "multipart/form-data",
+        },
+      };
 
-        const formData = new FormData();
-        formData.append("name", addForm.name);
-        formData.append("price", addForm.price);
-        formData.append("image", addForm.image);
-        formData.append("category", addForm.category);
+      const formData = new FormData();
+      formData.append("name", addForm.name);
+      formData.append("price", addForm.price);
+      formData.append("image", addForm.image);
+      formData.append("category", addForm.category);
 
-        const addCarResponse = await axios.post(
-          "https://api-car-rental.binaracademy.org/admin/car",
-          formData,
-          config
-        )
-        console.log(addCarResponse)
-        navigate("/cars")
-      }
-       catch (err) {
-        console.log(err)
+      const addCarResponse = await axios.post(
+        "https://api-car-rental.binaracademy.org/admin/car",
+        formData,
+        config
+      );
+      console.log(addCarResponse);
+      navigate("/cars");
+    } catch (err) {
+      console.log(err);
     }
     console.log(addForm);
   };
 
-  
-
   return (
     <div>
+      <div>
       <SideBar />
       <NavBar />
-      <h1> ADD NEW CAR</h1>
+      </div>
+      
+      <Container className="bread-add">
+      <Breadcrumb>
+      <Breadcrumb.Item > Cars </Breadcrumb.Item>
+      <Breadcrumb.Item>
+      <Link to="/cars"> List Car </Link>
+      </Breadcrumb.Item>
+      <Breadcrumb.Item active>Add Car</Breadcrumb.Item>
+    </Breadcrumb>
+      </Container>
+      <div className="add-title">
+      <h3> Add New Car</h3>
+      </div>
       <div className="add-car">
         <Form>
           <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
@@ -182,7 +191,10 @@ const AddPage = () => {
             </Col>
           </Form.Group>
         </Form>
-        <Button onClick={handleSubmitForm}>klik</Button>
+        <div className="btn-add"> 
+        <Button variant="outline-primary" >Cancel</Button>
+        <Button  variant="primary" onClick={handleSubmitForm}>Save</Button>
+        </div>
       </div>
     </div>
   );
