@@ -19,9 +19,9 @@ const TableCar = () => {
   const [data, setData] = useState([]);
   const [numOfPage, setNumOfPage] = useState([]);
 
-  const handleSortClick = () => {
+  const handleSortClick = (key) => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(newSortOrder);
+    setSortOrder(`${key}%3A${newSortOrder}`);
   };
 
   function formatRupiah(angka) {
@@ -41,7 +41,7 @@ const TableCar = () => {
     const token = localStorage.getItem("accessToken");
     try {
       const response = await axios.get(
-        `https://api-car-rental.binaracademy.org/admin/v2/order/?page=${pageIndex}&pageSize=${pageSize}&sort=${sortBy}`,
+        `https://api-car-rental.binaracademy.org/admin/v2/order?sort=${sortBy}&page=${pageIndex}&pageSize=${pageSize}`,
         {
           headers: {
             access_token: token,
@@ -137,30 +137,30 @@ const TableCar = () => {
               >
                 User Email{" "}
                 {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
+                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("email")} />
                 ) : (
                   sortOrder === "desc" && (
                     <FontAwesomeIcon
                       icon={faSortDown}
-                      onClick={handleSortClick}
+                      onClick={() => handleSortClick("email")}
                     />
                   )
                 )}
                 {!sortOrder && (
-                  <FontAwesomeIcon icon={faSort} onClick={handleSortClick} />
+                  <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
                 )}
               </th>
               <th
                 style={{ backgroundColor: "#cfd4ed" }}
                 className="text-head-table"
               >
-                Category{" "}
+                Car{" "}
                 {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
+                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("car_name")} />
                 ) : (
                   <FontAwesomeIcon
                     icon={faSortDown}
-                    onClick={handleSortClick}
+                    onClick={() => handleSortClick("car_name")}
                   />
                 )}
               </th>
@@ -170,11 +170,11 @@ const TableCar = () => {
               >
                 Start Rent{" "}
                 {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
+                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("start_rent")} />
                 ) : (
                   <FontAwesomeIcon
                     icon={faSortDown}
-                    onClick={handleSortClick}
+                    onClick={() => handleSortClick("start_rent")}
                   />
                 )}
               </th>
@@ -184,11 +184,11 @@ const TableCar = () => {
               >
                 Finish Rent{" "}
                 {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
+                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("finish_rent")} />
                 ) : (
                   <FontAwesomeIcon
                     icon={faSortDown}
-                    onClick={handleSortClick}
+                    onClick={() => handleSortClick("finish_rent")}
                   />
                 )}
               </th>
@@ -198,11 +198,11 @@ const TableCar = () => {
               >
                 Price{" "}
                 {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
+                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("price")} />
                 ) : (
                   <FontAwesomeIcon
                     icon={faSortDown}
-                    onClick={handleSortClick}
+                    onClick={() => handleSortClick("price")}
                   />
                 )}
               </th>
@@ -212,11 +212,11 @@ const TableCar = () => {
               >
                 Category{" "}
                 {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={handleSortClick} />
+                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("category")} />
                 ) : (
                   <FontAwesomeIcon
                     icon={faSortDown}
-                    onClick={handleSortClick}
+                    onClick={() => handleSortClick("category")}
                   />
                 )}
               </th>
