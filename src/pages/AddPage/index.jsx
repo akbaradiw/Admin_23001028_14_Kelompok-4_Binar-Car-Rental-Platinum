@@ -22,6 +22,7 @@ const AddPage = () => {
   const navigate = useNavigate();
   const [fixAdd, setFixAdd] = useState(false);
   const [toastAlert, setToastAlert] = useState(false);
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const [addForm, setAddForm] = useState({
     name: "",
@@ -36,10 +37,19 @@ const AddPage = () => {
       ...addForm,
       [name]: value,
     });
-    setFixAdd(true);
-   
+    setFixAdd(true); 
   
   };
+
+  const handleCancel = () => {
+    setAddForm({
+      name: "",
+      price: "",
+      image: "",
+      category: "",
+    });
+    setFixAdd(false);
+  }
 
   const handleImage = (e) => {
     const extend = e.target.files[0]?.type.split("/")[1];
@@ -96,7 +106,10 @@ const AddPage = () => {
       );
       setFixAdd(true);
       console.log(addCarResponse);
-      navigate("/cars");
+      setTimeout(() => {
+        navigate("/cars");
+      }, 2000);
+      setSuccessAlert(true);
     } catch (err) {
       console.log(err);
       setToastAlert(true);
@@ -124,7 +137,11 @@ const AddPage = () => {
             mohon dilengkapi terlebih dahulu
           </Alert>
         )}
-    
+       {successAlert && (
+          <Alert variant="warning" className="alert-seccess">
+            Berhasil menambah data
+          </Alert>
+        )}
           </Container>
       <div className="add-title">
         <h3> Add New Car</h3>
@@ -220,7 +237,7 @@ const AddPage = () => {
           </Form.Group>
         </Form>
         <div className="btn-add">
-          <Button variant="outline-primary">Cancel</Button>
+          <Button variant="outline-primary" onClick={handleCancel}>Cancel</Button>
           <Button
             variant="primary"
             onClick={handleSubmitForm}

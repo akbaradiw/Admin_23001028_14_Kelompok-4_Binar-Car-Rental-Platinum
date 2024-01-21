@@ -109,7 +109,10 @@ const EditPage = () => {
         config
       );
       console.log(editCarResponse);
-      navigate("/cars");
+      setTimeout(() => {
+        navigate("/cars");
+      }, 2000);
+      setToastAlert(true);
     } catch (err) {
       // console.log(err)
       setFixEdit(true);
@@ -167,7 +170,7 @@ const EditPage = () => {
         </Breadcrumb>
         {toastAlert && (
           <Alert variant="success" className="alert-seccess">
-            Edit belum lengkap
+            Berhasil ubah data
           </Alert>
         )}
       </Container>
@@ -269,6 +272,7 @@ const EditPage = () => {
           <Button variant="primary" onClick={editButton} isDisabled={!fixEdit}>
             Save
           </Button>
+     
         </div>
       </div>
     </div>
