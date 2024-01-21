@@ -1,7 +1,15 @@
 import React from "react";
 import SideBar from "../../components/SideBar";
 import NavBar from "../../components/NavBar";
-import { Form, Button, Col, Row, Breadcrumb, Container } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Col,
+  Row,
+  Breadcrumb,
+  Container,
+  Alert,
+} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import axios from "axios";
@@ -12,6 +20,8 @@ const AddPage = () => {
   const [file, setFile] = useState(0);
   const [prevFile, setPrevFile] = useState(null);
   const navigate = useNavigate();
+  const [fixAdd, setFixAdd] = useState(false);
+  const [toastAlert, setToastAlert] = useState(false);
 
   const [addForm, setAddForm] = useState({
     name: "",
@@ -26,8 +36,9 @@ const AddPage = () => {
       ...addForm,
       [name]: value,
     });
-    // console.log(addForm);
-    // console.log(name, value);
+    setFixAdd(true);
+   
+  
   };
 
   const handleImage = (e) => {
@@ -38,23 +49,32 @@ const AddPage = () => {
 
     if (!allowedExten.includes(extend)) {
       alert("File bukan gambar");
-      return;
+      // e.target.value = null
+      return; 
     } else if (data.size > allowedSize) {
       alert("File terlalu besar");
-      return;
-    } else {
+      return; 
+    }
+ 
+    else {
       console.log(e.target.files[0]);
-      // setFile(e.target.files[0]);
       setFile(URL.createObjectURL(e.target.files[0]));
       setAddForm({
         ...addForm,
         image: data,
       });
+   
       console.log(data);
     }
   };
 
   const handleSubmitForm = async () => {
+    if (addForm.image === "") {
+      setFixAdd(true);
+      setToastAlert(true);
+      return;
+    }
+  
     try {
       const config = {
         headers: {
@@ -74,10 +94,12 @@ const AddPage = () => {
         formData,
         config
       );
+      setFixAdd(true);
       console.log(addCarResponse);
       navigate("/cars");
     } catch (err) {
       console.log(err);
+      setToastAlert(true);
     }
     console.log(addForm);
   };
@@ -85,21 +107,27 @@ const AddPage = () => {
   return (
     <div>
       <div>
-      <SideBar />
-      <NavBar />
+        <SideBar />
+        <NavBar />
       </div>
-      
+
       <Container className="bread-add">
-      <Breadcrumb>
-      <Breadcrumb.Item > Cars </Breadcrumb.Item>
-      <Breadcrumb.Item>
-      <Link to="/cars"> List Car </Link>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item active>Add Car</Breadcrumb.Item>
-    </Breadcrumb>
-      </Container>
+        <Breadcrumb>
+          <Breadcrumb.Item> Cars </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/cars"> List Car </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Add Car</Breadcrumb.Item>
+        </Breadcrumb>
+        {toastAlert && (
+          <Alert variant="danger" className="alert-seccess">
+            mohon dilengkapi terlebih dahulu
+          </Alert>
+        )}
+    
+          </Container>
       <div className="add-title">
-      <h3> Add New Car</h3>
+        <h3> Add New Car</h3>
       </div>
       <div className="add-car">
         <Form>
@@ -142,10 +170,10 @@ const AddPage = () => {
             <Col sm="10">
               <Form.Control
                 type="file"
-                // name="photo"
+                // name="image"
                 placeholder="Upload Foto Mobil"
                 onChange={handleImage}
-                // value={addForm.photo}
+                // value={addForm.image}
               />
               {/* <img style={{ width: 200, height: 200 }} src={prevFile} /> */}
             </Col>
@@ -191,9 +219,15 @@ const AddPage = () => {
             </Col>
           </Form.Group>
         </Form>
-        <div className="btn-add"> 
-        <Button variant="outline-primary" >Cancel</Button>
-        <Button  variant="primary" onClick={handleSubmitForm}>Save</Button>
+        <div className="btn-add">
+          <Button variant="outline-primary">Cancel</Button>
+          <Button
+            variant="primary"
+            onClick={handleSubmitForm}
+            disabled={!fixAdd}
+          >
+            Save
+          </Button>
         </div>
       </div>
     </div>

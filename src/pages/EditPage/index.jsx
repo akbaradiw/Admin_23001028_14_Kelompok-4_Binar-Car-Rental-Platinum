@@ -20,6 +20,7 @@ import axios from "axios";
 const EditPage = () => {
   const navigate = useNavigate();
   const [editFile, setEditFile] = useState(0);
+  const [fixEdit, setFixEdit] = useState(false);
   const [lock, setLock] = useState({});
   const [toastAlert, setToastAlert] = useState(false);
   const message = useSelector((state) => state.messages);
@@ -65,9 +66,15 @@ const EditPage = () => {
       ...editForm,
       [name]: value,
     });
+    setFixEdit(true);
   };
 
   const editButton = async () => {
+    if (editForm.image === "") {
+      setFixEdit(true);
+      setToastAlert(true);
+      return;
+    }
     // console.log(editForm);
     // kalau misal error form datanya pindah ke atas config
     var token = localStorage.getItem("accessToken");
@@ -103,9 +110,9 @@ const EditPage = () => {
       );
       console.log(editCarResponse);
       navigate("/cars");
-      setToastAlert(true);
     } catch (err) {
       // console.log(err)
+      setFixEdit(true);
     }
   };
 
@@ -145,35 +152,28 @@ const EditPage = () => {
   };
 
   return (
-   
     <div>
       <div>
-      <SideBar />
-      <NavBar />
+        <SideBar />
+        <NavBar />
       </div>
       <Container className="bread-edit">
-      <Breadcrumb>
-      <Breadcrumb.Item > Cars </Breadcrumb.Item>
-      <Breadcrumb.Item>
-      <Link to="/cars"> List Car </Link>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item active>Edit Car</Breadcrumb.Item>
-    </Breadcrumb>
+        <Breadcrumb>
+          <Breadcrumb.Item> Cars </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/cars"> List Car </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Edit Car</Breadcrumb.Item>
+        </Breadcrumb>
+        {toastAlert && (
+          <Alert variant="success" className="alert-seccess">
+            Edit belum lengkap
+          </Alert>
+        )}
       </Container>
       <div className="edit-title">
-      <h3> Edit Car </h3>
+        <h3> Edit Car </h3>
       </div>
-      {/* {toastAlert && (
-              <Alert variant="success" className="alert-seccess">
-                Berhasil Edit Data
-              </Alert>
-            )}
-      
-         {message.deleteMessageSuccess && (
-        <div className="d-flex justify-content-center">
-          <div className="success-delete"><b>Data Berhasil Dihapus</b></div>
-        </div>
-      )} */}
 
       <div className="edit">
         <Form>
@@ -265,11 +265,13 @@ const EditPage = () => {
           </Form.Group>
         </Form>
         <div className="edit-btn">
-        <Button variant="outline-primary">Cancel</Button>    
-        <Button variant="primary" onClick={editButton}>Save</Button>
-        </div>    
+          <Button variant="outline-primary">Cancel</Button>
+          <Button variant="primary" onClick={editButton} isDisabled={!fixEdit}>
+            Save
+          </Button>
+        </div>
       </div>
-    </div>   
+    </div>
   );
 };
 
