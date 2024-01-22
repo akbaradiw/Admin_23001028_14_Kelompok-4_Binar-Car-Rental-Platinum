@@ -13,6 +13,6 @@
     margin-bottom: var(--bs-breadcrumb-margin-bottom);
     font-size: var(--bs-breadcrumb-font-size);
     list-style: none;
-    background-color: red;
+    /* background-color: red; */
     border-radius: var(--bs-breadcrumb-border-radius);
 }
