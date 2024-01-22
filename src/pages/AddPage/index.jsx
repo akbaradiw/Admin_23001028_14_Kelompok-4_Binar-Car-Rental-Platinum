@@ -15,6 +15,8 @@ import "./style.css";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../../redux/message/messageSlice";
 
 const AddPage = () => {
   const [file, setFile] = useState(0);
@@ -22,7 +24,8 @@ const AddPage = () => {
   const navigate = useNavigate();
   const [fixAdd, setFixAdd] = useState(false);
   const [toastAlert, setToastAlert] = useState(false);
-  const [successAlert, setSuccessAlert] = useState(false);
+  const dispatch = useDispatch();
+  
 
   const [addForm, setAddForm] = useState({
     name: "",
@@ -49,6 +52,7 @@ const AddPage = () => {
       category: "",
     });
     setFixAdd(false);
+    navigate("/cars");
   }
 
   const handleImage = (e) => {
@@ -106,9 +110,17 @@ const AddPage = () => {
       );
       setFixAdd(true);
       console.log(addCarResponse);
-      setTimeout(() => {
         navigate("/cars");
-      }, 2000);
+    dispatch(setMessage({
+      addMessageSuccess: true,
+    }))
+    setTimeout(() => {
+      dispatch(setMessage({
+        addMessageSuccess: false,
+      }))
+    }
+    , 3000)
+
       setSuccessAlert(true);
     } catch (err) {
       console.log(err);
@@ -135,11 +147,6 @@ const AddPage = () => {
         {toastAlert && (
           <Alert variant="danger" className="alert-seccess">
             mohon dilengkapi terlebih dahulu
-          </Alert>
-        )}
-       {successAlert && (
-          <Alert variant="warning" className="alert-seccess">
-            Berhasil menambah data
           </Alert>
         )}
           </Container>

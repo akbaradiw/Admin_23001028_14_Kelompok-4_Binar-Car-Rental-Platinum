@@ -77,6 +77,11 @@ const ListCar = () => {
           <div className="success-delete"><b>Data Berhasil Dihapus</b></div>
         </div>
       )}
+       {message.addMessageSuccess && (
+        <div className="d-flex justify-content-center">
+          <div className="success-add"><b>Data Berhasil Disimpan</b></div>
+        </div>
+      )}
       
       <div className="d-flex justify-content-between">
         <p className="h3">List Car</p>

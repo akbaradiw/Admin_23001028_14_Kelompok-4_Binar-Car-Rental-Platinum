@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     deleteMessageError: false,
-    deleteMessageSuccess: false
+    deleteMessageSuccess: false,
+    addMessageSuccess: false,
 };
 
 const messageSlice = createSlice({
@@ -10,8 +11,9 @@ const messageSlice = createSlice({
     initialState,
     reducers: {
         setMessage(state, action) {
-            state.deleteMessageError = action.payload.deleteMessageError
-            state.deleteMessageSuccess = action.payload.deleteMessageSuccess
+            state.deleteMessageError = action.payload?.deleteMessageError
+            state.deleteMessageSuccess = action.payload?.deleteMessageSuccess
+            state.addMessageSuccess = action.payload?.addMessageSuccess
         }
     },
 });

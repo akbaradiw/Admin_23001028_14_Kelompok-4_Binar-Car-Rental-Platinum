@@ -14,17 +14,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "../../components/NavBar";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+import { setMessage } from "../../redux/message/messageSlice";
+
 
 const EditPage = () => {
   const navigate = useNavigate();
   const [editFile, setEditFile] = useState(0);
   const [fixEdit, setFixEdit] = useState(false);
   const [lock, setLock] = useState({});
-  const [toastAlert, setToastAlert] = useState(false);
-  const message = useSelector((state) => state.messages);
+  const [editError, setEditError] = useState(false);
   const { id } = useParams();
+  const dispatch = useDispatch();
+
 
   const [editForm, setEditForm] = useState({
     name: "",
@@ -72,9 +75,20 @@ const EditPage = () => {
   const editButton = async () => {
     if (editForm.image === "") {
       setFixEdit(true);
-      setToastAlert(true);
-      return;
+      setEditError(true);
+      return; 
     }
+    if (editForm.name === "") {
+      setFixEdit(true);
+      setEditError(true);
+      return; 
+    }
+    if (editForm.category === "") {
+      setFixEdit(true);
+      setEditError(true);
+      return
+    }
+
     // console.log(editForm);
     // kalau misal error form datanya pindah ke atas config
     var token = localStorage.getItem("accessToken");
@@ -108,14 +122,22 @@ const EditPage = () => {
         formData,
         config
       );
+      setFixEdit(true);
       console.log(editCarResponse);
-      setTimeout(() => {
         navigate("/cars");
-      }, 2000);
-      setToastAlert(true);
+        dispatch(setMessage({
+          addMessageSuccess: true,
+        }))
+        setTimeout(() => {
+          dispatch(setMessage({
+            addMessageSuccess: false,
+          }))
+        }
+        , 3000)
+      setEditAlert(true);
     } catch (err) {
       // console.log(err)
-      setFixEdit(true);
+      setEditError(true);
     }
   };
 
@@ -168,10 +190,11 @@ const EditPage = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Edit Car</Breadcrumb.Item>
         </Breadcrumb>
-        {toastAlert && (
-          <Alert variant="success" className="alert-seccess">
-            Berhasil ubah data
-          </Alert>
+    
+        {editError && (
+          <Alert variant="danger" className="alert-seccess">
+            Form tidak lengkap, Edit gagal
+            </Alert>
         )}
       </Container>
       <div className="edit-title">
