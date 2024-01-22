@@ -8,7 +8,7 @@ import Protected from "./routes/Protected";
 
 export const routes = [
   {
-    path: "/login",
+    path: "/",
     element: (
       <Authentication>
         <LoginPage />

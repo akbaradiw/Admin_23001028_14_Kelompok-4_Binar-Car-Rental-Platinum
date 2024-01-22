@@ -23,7 +23,7 @@ const NavBar = () => {
   const role = localStorage.getItem("role");
   const handleLogOut = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
   };
 
   const handleSearch = async () => {
