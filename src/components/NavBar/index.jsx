@@ -23,7 +23,7 @@ const NavBar = () => {
   const role = localStorage.getItem("role");
   const handleLogOut = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
   };
 
   const handleSearch = async () => {
@@ -39,6 +39,13 @@ const NavBar = () => {
   return (
     <div>
       <Navbar className="navbar">
+        <div className="d-flex gap-4">
+          <div className="logo-navbar"></div>
+          <div className="ml-3">
+            <i class="bi bi-list h2"></i>
+          </div>
+        </div>
+
         <Form inline>
           <Row>
             <Col xs="auto">
