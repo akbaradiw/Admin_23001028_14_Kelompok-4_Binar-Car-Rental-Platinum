@@ -290,14 +290,15 @@ const EditPage = () => {
             </Col>
           </Form.Group>
         </Form>
-        <div className="edit-btn">
-          <Button variant="outline-primary">Cancel</Button>
-          <Button variant="primary" onClick={editButton} isDisabled={!fixEdit}>
+      </div>
+
+      <div className="edit-btn">
+          <button className="edt-cancel">Cancel</button>
+          <button className="edt-save" onClick={editButton} isDisabled={!fixEdit}>
             Save
-          </Button>
+          </button>
      
         </div>
-      </div>
     </div>
   );
 };

@@ -85,7 +85,7 @@ const ListCar = () => {
       <div className="d-flex justify-content-between">
         <p className="h3">List Car</p>
 
-        <Button onClick={() => navigate("/add")}>+ Add New Car</Button>
+        <button className="btn-addnew" onClick={() => navigate("/add")}>+ Add New Car</button>
       </div>
       <br />
 

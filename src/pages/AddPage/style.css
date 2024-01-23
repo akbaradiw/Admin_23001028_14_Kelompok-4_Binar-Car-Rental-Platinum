@@ -20,5 +20,22 @@
 .btn-add {
     display: flex;
     gap: 25px;
-    padding: 10px 0px 0px;   
+    padding: 170px 0px 0px 220px;   
+}
+
+.add-cancel {
+    background-color: #ffffff;
+    color: #0D28A6;
+    border: solid 1px #0D28A6;
+    padding: 10px 4px 6px 4px;
+    font-weight: 500;
+
+}
+
+.add-save {
+    background-color: #0D28A6;
+    color: #f9f9f9;
+    border: solid 1px #0D28A6;
+    padding: 6px 5px 6px 5px;
+    font-weight: 500;
 }

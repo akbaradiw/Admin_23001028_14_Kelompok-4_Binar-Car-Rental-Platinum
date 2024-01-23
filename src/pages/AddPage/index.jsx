@@ -243,17 +243,17 @@ const AddPage = () => {
             </Col>
           </Form.Group>
         </Form>
-        <div className="btn-add">
-          <Button variant="outline-primary" onClick={handleCancel}>Cancel</Button>
-          <Button
-            variant="primary"
+      </div>
+      <div className="btn-add">
+          <button className="add-cancel" onClick={handleCancel}>Cancel</button>
+          <button
+            className="add-save"
             onClick={handleSubmitForm}
             disabled={!fixAdd}
           >
             Save
-          </Button>
+          </button>
         </div>
-      </div>
     </div>
   );
 };
