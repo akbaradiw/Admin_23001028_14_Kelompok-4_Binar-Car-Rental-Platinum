@@ -1,8 +1,16 @@
 .page-dashboard {
     margin-left: 227px !important;
     padding: 72px 15px 0px 15px;
-    background: #F4F5F7;
+    /* background: #F4F5F7; */
     min-width: 1150px;
-    /* height: 1300px; */
-    min-height: 2000px;
+    /* max-height: 2050px; */
+}
+
+.breadcrumb {
+    color: var(--Neutral-01, #000);
+    font-family: Arial;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
 }

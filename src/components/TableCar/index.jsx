@@ -74,8 +74,8 @@ const TableCar = () => {
   };
 
   useEffect(() => {
-    fetchData(currentPage, itemsPerPage, sortOrder);
-  }, [currentPage, itemsPerPage, sortOrder]);
+    fetchData(currentPage, itemsPerPage);
+  }, [currentPage, itemsPerPage]);
 
   const initPageNumbers = useCallback((current, totalPage) => {
     const pageNumbers = [];
@@ -156,7 +156,7 @@ const TableCar = () => {
                   onClick={() => sortAscending("car_name") || sortDescending("car_name")}
                 />
               </th>
-              <th style={{ backgroundColor: "#cfd4ed" }} className="text-he*0/*/ad-table">
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Start Rent{" "}
                 <FontAwesomeIcon
                   icon={faSort}
