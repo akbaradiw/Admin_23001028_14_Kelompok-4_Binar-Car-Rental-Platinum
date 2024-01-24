@@ -1,11 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Table, Pagination, Form, InputGroup, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSort,
-  faSortUp,
-  faSortDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import "./style.css";
 import axios from "axios";
 import { useEffect } from "react";
@@ -86,10 +82,7 @@ const TableCar = () => {
       }
     }
 
-    if (
-      totalPage > shownPageNumbers &&
-      !pageNumbers.includes(shownPageNumbers)
-    ) {
+    if (totalPage > shownPageNumbers && !pageNumbers.includes(shownPageNumbers)) {
       pageNumbers.unshift({
         ellipsis: true,
         page: pageNumbers.length,
@@ -103,14 +96,9 @@ const TableCar = () => {
     initPageNumbers(currentPage + 1, pageCount);
   }, [initPageNumbers, currentPage, pageCount]);
 
-
-
   return (
     <>
-      <div
-        className="d-flex-column"
-        style={{ maxHeight: "100vh", marginTop: "80px" }}
-      >
+      <div className="d-flex-column" style={{ maxHeight: "100vh", marginTop: "80px" }}>
         <h3 className="title-dashboard">Dashboard</h3>
         <div className="d-flex align-items-center mt-4">
           <div className="blue-line me-2"></div>
@@ -136,38 +124,31 @@ const TableCar = () => {
                 className="text-head-table"
               >
                 User Email{" "}
-                {sortOrder === "asc" ? (
+                {/* {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("email")} />
                 ) : (
                   sortOrder === "desc" && (
-                    <FontAwesomeIcon
-                      icon={faSortDown}
-                      onClick={() => handleSortClick("email")}
-                    />
+                    <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("email")} />
                   )
                 )}
                 {!sortOrder && (
                   <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
+                )} */}
+                {sortOrder === "asc" ? (
+                  <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
+                ) : (
+                  <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
                 )}
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Car{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("car_name")} />
                 ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("car_name")}
-                  />
+                  <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("car_name")} />
                 )}
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-he*0/*/ad-table">
                 Start Rent{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("start_rent")} />
@@ -178,10 +159,7 @@ const TableCar = () => {
                   />
                 )}
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Finish Rent{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("finish_rent")} />
@@ -192,18 +170,12 @@ const TableCar = () => {
                   />
                 )}
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Price{" "}
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("price")} />
                 ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("price")}
-                  />
+                  <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("price")} />
                 )}
               </th>
               <th
@@ -214,10 +186,7 @@ const TableCar = () => {
                 {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("category")} />
                 ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("category")}
-                  />
+                  <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("category")} />
                 )}
               </th>
             </tr>
@@ -268,14 +237,12 @@ const TableCar = () => {
                       // value={selectedMonth}
                     >
                       <option value="">Select page</option>
-                     
-                      {Array.from({ length: pageCount }).map(
-                        (_, index) => (
-                          <option key={index} value={index + 1}>
-                            {index + 1}
-                          </option>
-                        )
-                      )}
+
+                      {Array.from({ length: pageCount }).map((_, index) => (
+                        <option key={index} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      ))}
                     </Form.Select>
                     <Button
                       className="go"
@@ -293,11 +260,7 @@ const TableCar = () => {
             <Pagination>
               <Pagination.First onClick={() => setCurrentPage(1)} />
               <Pagination.Prev
-                onClick={() =>
-                  setCurrentPage((prevPage) =>
-                    prevPage > 1 ? prevPage - 1 : 1
-                  )
-                }
+                onClick={() => setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1))}
               />
               {numOfPage.map((val, idx) => {
                 if (typeof val === "number") {
@@ -311,12 +274,7 @@ const TableCar = () => {
                     </Pagination.Item>
                   );
                 } else {
-                  return (
-                    <Pagination.Ellipsis
-                      key={idx}
-                      onClick={() => setCurrentPage(val.page)}
-                    />
-                  );
+                  return <Pagination.Ellipsis key={idx} onClick={() => setCurrentPage(val.page)} />;
                 }
               })}
               <Pagination.Next
@@ -324,9 +282,7 @@ const TableCar = () => {
                   setCurrentPage(currentPage < pageCount ? currentPage + 1 : pageCount)
                 }
               />
-              <Pagination.Last
-                onClick={() => setCurrentPage(pageCount)}
-              />
+              <Pagination.Last onClick={() => setCurrentPage(pageCount)} />
             </Pagination>
           </div>
         </div>
