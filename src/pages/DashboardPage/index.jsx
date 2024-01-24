@@ -1,11 +1,10 @@
 import React from "react";
 import SideBar from "../../components/SideBar";
 import NavBar from "../../components/NavBar";
-import "./style.css";
-// import Breadcrumb from "../../components/Breadcrumb";
 import { Breadcrumb } from "react-bootstrap";
 import DataStatistic from "../../components/DataStatistic";
 import TableCar from "../../components/TableCar";
+import "./style.css";
 
 const DashboardPage = () => {
   return (
@@ -14,6 +13,7 @@ const DashboardPage = () => {
       <NavBar />
       <div className="page-dashboard">
         <Breadcrumb>
+          <Breadcrumb.Item>Dashboard </Breadcrumb.Item>
           <Breadcrumb.Item active>Dashboard </Breadcrumb.Item>
         </Breadcrumb>
         <DataStatistic />
