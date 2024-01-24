@@ -1,17 +1,31 @@
 import React from "react";
 import SideBar from "../../components/SideBar";
 import NavBar from "../../components/NavBar";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Col,
+  Row,
+  Breadcrumb,
+  Container,
+  Alert,
+} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../../redux/message/messageSlice";
 
 const AddPage = () => {
   const [file, setFile] = useState(0);
   const [prevFile, setPrevFile] = useState(null);
   const navigate = useNavigate();
+  const [fixAdd, setFixAdd] = useState(false);
+  const [toastAlert, setToastAlert] = useState(false);
+  const dispatch = useDispatch();
+  
 
   const [addForm, setAddForm] = useState({
     name: "",
@@ -26,9 +40,20 @@ const AddPage = () => {
       ...addForm,
       [name]: value,
     });
-    // console.log(addForm);
-    // console.log(name, value);
+    setFixAdd(true); 
+  
   };
+
+  const handleCancel = () => {
+    setAddForm({
+      name: "",
+      price: "",
+      image: "",
+      category: "",
+    });
+    setFixAdd(false);
+    navigate("/cars");
+  }
 
   const handleImage = (e) => {
     const extend = e.target.files[0]?.type.split("/")[1];
@@ -38,60 +63,96 @@ const AddPage = () => {
 
     if (!allowedExten.includes(extend)) {
       alert("File bukan gambar");
-      return
+      // e.target.value = null
+      return; 
     } else if (data.size > allowedSize) {
       alert("File terlalu besar");
-      return
-    } else {
+      return; 
+    }
+ 
+    else {
       console.log(e.target.files[0]);
-      setFile(e.target.files[0]);
-      setPrevFile(URL.createObjectURL(e.target.files[0]));
+      setFile(URL.createObjectURL(e.target.files[0]));
       setAddForm({
         ...addForm,
-         image:data
-      })
-      console.log(data)
+        image: data,
+      });
+   
+      console.log(data);
     }
-
-    
   };
 
   const handleSubmitForm = async () => {
-      try {
-        const config = {
-          headers: {
-            access_token: localStorage.getItem("accessToken") ,
-            "Content-Type": "multipart/form-data"
-          },
-        }
+    if (addForm.image === "") {
+      setFixAdd(true);
+      setToastAlert(true);
+      return;
+    }
+  
+    try {
+      const config = {
+        headers: {
+          access_token: localStorage.getItem("accessToken"),
+          "Content-Type": "multipart/form-data",
+        },
+      };
 
-        const formData = new FormData();
-        formData.append("name", addForm.name);
-        formData.append("price", addForm.price);
-        formData.append("image", addForm.image);
-        formData.append("category", addForm.category);
+      const formData = new FormData();
+      formData.append("name", addForm.name);
+      formData.append("price", addForm.price);
+      formData.append("image", addForm.image);
+      formData.append("category", addForm.category);
 
-        const addCarResponse = await axios.post(
-          "https://api-car-rental.binaracademy.org/admin/car",
-          formData,
-          config
-        )
-        console.log(addCarResponse)
-        navigate("/cars")
-      }
-       catch (err) {
-        console.log(err)
+      const addCarResponse = await axios.post(
+        "https://api-car-rental.binaracademy.org/admin/car",
+        formData,
+        config
+      );
+      setFixAdd(true);
+      console.log(addCarResponse);
+        navigate("/cars");
+    dispatch(setMessage({
+      addMessageSuccess: true,
+    }))
+    setTimeout(() => {
+      dispatch(setMessage({
+        addMessageSuccess: false,
+      }))
+    }
+    , 3000)
+
+      setSuccessAlert(true);
+    } catch (err) {
+      console.log(err);
+      setToastAlert(true);
     }
     console.log(addForm);
   };
 
-  
-
   return (
     <div>
-      <SideBar />
-      <NavBar />
-      <h1> ADD NEW CAR</h1>
+      <div>
+        <SideBar />
+        <NavBar />
+      </div>
+
+      <Container className="bread-add">
+        <Breadcrumb>
+          <Breadcrumb.Item> Cars </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/cars"> List Car </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>Add Car</Breadcrumb.Item>
+        </Breadcrumb>
+        {toastAlert && (
+          <Alert variant="danger" className="alert-seccess">
+            mohon dilengkapi terlebih dahulu
+          </Alert>
+        )}
+          </Container>
+      <div className="add-title">
+        <h3> Add New Car</h3>
+      </div>
       <div className="add-car">
         <Form>
           <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
@@ -133,12 +194,12 @@ const AddPage = () => {
             <Col sm="10">
               <Form.Control
                 type="file"
-                // name="photo"
+                // name="image"
                 placeholder="Upload Foto Mobil"
                 onChange={handleImage}
-                // value={addForm.photo}
+                // value={addForm.image}
               />
-              <img style={{ width: 200, height: 200 }} src={prevFile} />
+              {/* <img style={{ width: 200, height: 200 }} src={prevFile} /> */}
             </Col>
           </Form.Group>
           <Form.Group
@@ -158,9 +219,9 @@ const AddPage = () => {
                   aria-label="Default select example"
                 >
                   <option value="">Pilih Kategori Mobil</option>
-                  <option value="Small">Small</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Large">Large</option>
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
                 </Form.Select>
               </div>
             </Col>
@@ -182,7 +243,16 @@ const AddPage = () => {
             </Col>
           </Form.Group>
         </Form>
-        <Button onClick={handleSubmitForm}>klik</Button>
+        <div className="btn-add">
+          <Button variant="outline-primary" onClick={handleCancel}>Cancel</Button>
+          <Button
+            variant="primary"
+            onClick={handleSubmitForm}
+            disabled={!fixAdd}
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </div>
   );

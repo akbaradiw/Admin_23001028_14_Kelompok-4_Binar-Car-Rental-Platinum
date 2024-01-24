@@ -1,10 +1,24 @@
 .edit {
     padding:50px;
-    margin: 123px 210px 0px 210px;
+    margin: 13px 210px 0px 210px;
     background-color: rgb(255, 255, 255);
 }
 
-h1 {font-size: 20px;
+.edit-title {
     font-family: Arial;
-    margin:50px 240px 0px;
+    margin-bottom: 30px;
+    padding-left: 210px;
 }
+
+.bread-edit {
+    padding: 100px 0px 20px 0px;
+    margin: 0px 210px 0px 212px;
+    
+}
+
+.edit-btn {
+    display: flex;
+    gap: 25px;
+    padding: 10px 0px 0px;   
+}
+
