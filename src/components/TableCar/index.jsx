@@ -96,6 +96,33 @@ const TableCar = () => {
     initPageNumbers(currentPage + 1, pageCount);
   }, [initPageNumbers, currentPage, pageCount]);
 
+  const [status, setStatus] = useState();
+  const sortAscending = () => {
+    if (!status) {
+      const sortData = [...data];
+      const result = sortData.sort((a, b) => a.amountSpent - b.amountSpent);
+      setData(result);
+      setStatus("ASC");
+    } else if (status === "DESC") {
+      const reverseData = [...data];
+      setData(reverseData.reverse());
+      setStatus("ASC");
+    }
+  };
+
+  const sortDescending = () => {
+    if (!status) {
+      const sortData = [...data];
+      const result = sortData.sort((a, b) => b.amountSpent - a.amountSpent);
+      setData(result);
+      setStatus("DESC");
+    } else if (status === "ASC") {
+      const reverseData = [...data];
+      setData(reverseData.reverse());
+      setStatus("DESC");
+    }
+  };
+
   return (
     <>
       <div className="d-flex-column" style={{ maxHeight: "100vh", marginTop: "80px" }}>
@@ -123,71 +150,75 @@ const TableCar = () => {
                 style={{ backgroundColor: "#cfd4ed", marginRight: "100px" }}
                 className="text-head-table"
               >
-                User Email{" "}
-                {/* {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("email")} />
-                ) : (
-                  sortOrder === "desc" && (
-                    <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("email")} />
-                  )
-                )}
-                {!sortOrder && (
-                  <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
-                )} */}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
-                ) : (
-                  <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
-                )}
+                User Email{""}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("email") || sortDescending("email")}
+                />
               </th>
               <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Car{" "}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("car_name")} />
-                ) : (
-                  <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("car_name")} />
-                )}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("car_name") || sortDescending("car_name")}
+                />
               </th>
               <th style={{ backgroundColor: "#cfd4ed" }} className="text-he*0/*/ad-table">
                 Start Rent{" "}
-                {sortOrder === "asc" ? (
+                {/* {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("start_rent")} />
                 ) : (
                   <FontAwesomeIcon
                     icon={faSortDown}
                     onClick={() => handleSortClick("start_rent")}
                   />
-                )}
+                )} */}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("start_rent") || sortDescending("start_rent")}
+                />
               </th>
               <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Finish Rent{" "}
-                {sortOrder === "asc" ? (
+                {/* {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("finish_rent")} />
                 ) : (
                   <FontAwesomeIcon
                     icon={faSortDown}
                     onClick={() => handleSortClick("finish_rent")}
                   />
-                )}
+                )} */}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("finish_rent") || sortDescending("finish_rent")}
+                />
               </th>
               <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Price{" "}
-                {sortOrder === "asc" ? (
+                {/* {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("price")} />
                 ) : (
                   <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("price")} />
-                )}
+                )} */}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("price") || sortDescending("price")}
+                />
               </th>
               <th
                 style={{ backgroundColor: "#cfd4ed", minWidth: "10%" }}
                 className="text-head-table"
               >
                 Category{" "}
-                {sortOrder === "asc" ? (
+                {/* {sortOrder === "asc" ? (
                   <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("category")} />
                 ) : (
                   <FontAwesomeIcon icon={faSortDown} onClick={() => handleSortClick("category")} />
-                )}
+                )} */}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("category") || sortDescending("category")}
+                />
               </th>
             </tr>
           </thead>
