@@ -199,6 +199,7 @@ const AddPage = () => {
                 onChange={handleImage}
                 // value={addForm.image}
               />
+            <p className="text-kett">*isi gambar terlebih dahulu sebelum save*</p>
               {/* <img style={{ width: 200, height: 200 }} src={prevFile} /> */}
             </Col>
           </Form.Group>
