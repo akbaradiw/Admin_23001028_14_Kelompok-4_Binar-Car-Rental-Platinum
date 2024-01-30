@@ -23,11 +23,12 @@ const EditPage = () => {
   const navigate = useNavigate();
   const [editFile, setEditFile] = useState(0);
   const [fixEdit, setFixEdit] = useState(false);
-  const [lock, setLock] = useState({});
+  const [changeImg, setChangeImg] = useState(false);
   const [editError, setEditError] = useState(false);
   const { id } = useParams();
   const [toastAlert, setToastAlert] = useState(false);
   const dispatch = useDispatch();
+
 
 
   const [editForm, setEditForm] = useState({
@@ -37,14 +38,14 @@ const EditPage = () => {
     category: "",
   });
 
-  const handleCancel = () => {
-    setAddForm({
+  const cancelEdit = () => {
+    setEditForm({
       name: "",
       price: "",
       image: "",
       category: "",
     });
-    setFixAdd(false);
+    setFixEdit(false);
     navigate("/cars");
   }
 
@@ -75,7 +76,7 @@ const EditPage = () => {
     }
   };
 
-  const handleEditFormChange = (e) => {
+  const handleEditFormChange = (event) => {
     const { name, value } = event.target;
     setEditForm({
       ...editForm,
@@ -137,6 +138,7 @@ const EditPage = () => {
         formData,
         config
       );
+      setLock(true);
       setFixEdit(true);
       console.log(editCarResponse);
         navigate("/cars");
@@ -171,6 +173,7 @@ const EditPage = () => {
         ...editForm,
         image: data,
       });
+      setChangeImg(true);
       editFile(URL.createObjectURL(e.target.files[0]));
       setLock({ ...lock, image: e.target.files[0] });
     }
@@ -314,7 +317,7 @@ const EditPage = () => {
       </div>
 
       <div className="edit-btn">
-          <button className="edt-cancel" onClik={handleCancel}>Cancel</button>
+          <button className="edt-cancel" onClick={cancelEdit}>Cancel</button>
           <button className="edt-save" onClick={editButton} isDisabled={!fixEdit}>
             Save
           </button>
