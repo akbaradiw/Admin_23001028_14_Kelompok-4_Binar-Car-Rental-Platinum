@@ -24,54 +24,45 @@ const DataStatistic = () => {
 
   const token = localStorage.getItem("accessToken");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const baseUrl = "https://api-car-rental.binaracademy.org/admin/order/reports";
-        const fromDate = "2024-01-01";
-        const untilDate = "2024-12-31";
-        const fullUrl = `${baseUrl}?from=${fromDate}&until=${untilDate}`;
+  const fetchData = async () => {
+    try {
+      const baseUrl = "https://api-car-rental.binaracademy.org/admin/order/reports";
+      
+      const  fromDate = `${selectedMonth}-01`;
+      const  untilDate = `${selectedMonth}-${moment(selectedMonth, "YYYY-MM").daysInMonth()}`;
 
-        const axiosConfig = {
-          headers: {
-            access_token: token,
-          },
-        };
+      const fullUrl = `${baseUrl}?from=${fromDate}&until=${untilDate}`;
 
-        const response = await axios.get(fullUrl, axiosConfig);
-        const orderReports = response.data.map((report) => ({
-          day: moment(report.day, "YYYY-MM-DD").format("YYYY-MM-DD"),
-          orderCount: Number(report.orderCount),
-        }));
-        setApiData(orderReports);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+      const axiosConfig = {
+        headers: {
+          access_token: token,
+        },
+      };
 
-    fetchData();
-  }, [token]);
+      const response = await axios.get(fullUrl, axiosConfig);
+      const orderReports = response.data.map((report) => ({
+        day: moment(report.day, "YYYY-MM-DD").format("YYYY-MM-DD"),
+        orderCount: Number(report.orderCount),
+      }));
 
-  useEffect(() => {
-    if (selectedMonth) {
-      const selectedYear = selectedMonth.split("-")[0];
-      const selectedMonthNumber = parseInt(selectedMonth.split("-")[1]);
-      const daysInMonth = moment(`${selectedYear}-${selectedMonthNumber}`, "YYYY-MM").daysInMonth();
-      const datesArray = Array.from({ length: daysInMonth }, (_, i) =>
-        moment(`${selectedYear}-${selectedMonthNumber}-${i + 1}`).format("YYYY-MM-DD")
-      );
-
-      const chartDataMapped = datesArray.map((date) => {
-        const dataForDate = apiData.find((item) => item.day === date);
-        return {
-          day: moment(date).format("DD"),
-          orderCount: dataForDate ? dataForDate.orderCount : 0,
-        };
-      });
-
-      setChartData(chartDataMapped);
+      setApiData(orderReports);
+    } catch (error) {
+      console.error("Error:", error);
     }
-  }, [apiData, selectedMonth]);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [token, selectedMonth]);
+
+  useEffect(() => {
+      const chartDataMapped = apiData.map((item) => ({
+        day: moment(item.day).format("DD"),
+        orderCount: item.orderCount,
+      }))
+      setChartData(chartDataMapped);
+    
+  }, [apiData]);
 
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
@@ -141,7 +132,6 @@ const DataStatistic = () => {
                   onChange={handleMonthChange}
                   value={selectedMonth}
                 >
-                  <option value="">Select a month</option>
                   <option value="2024-01">January - 2024</option>
                   <option value="2024-02">February - 2024</option>
                   <option value="2024-03">March - 2024</option>

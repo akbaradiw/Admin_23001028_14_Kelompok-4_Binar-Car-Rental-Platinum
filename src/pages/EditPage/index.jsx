@@ -26,6 +26,7 @@ const EditPage = () => {
   const [lock, setLock] = useState({});
   const [editError, setEditError] = useState(false);
   const { id } = useParams();
+  const [toastAlert, setToastAlert] = useState(false);
   const dispatch = useDispatch();
 
 
@@ -35,6 +36,17 @@ const EditPage = () => {
     image: "",
     category: "",
   });
+
+  const cancelEdit = () => {
+    setEditForm({
+      name: "",
+      price: "",
+      image: "",
+      category: "",
+    });
+    setFixEdit(false);
+    navigate("/cars");
+  }
 
   useEffect(() => {
     carDetail();
@@ -73,19 +85,22 @@ const EditPage = () => {
   };
 
   const editButton = async () => {
-    if (editForm.image === "") {
-      setFixEdit(true);
-      setEditError(true);
+    if (editForm.image === "" ) {
+      // setFixEdit(true);
+      // setEditError(true);
+      setToastAlert(true);
       return; 
     }
     if (editForm.name === "") {
       setFixEdit(true);
       setEditError(true);
+      // setToastAlert(true);
       return; 
     }
     if (editForm.category === "") {
       setFixEdit(true);
       setEditError(true);
+      // setToastAlert(true);
       return
     }
 
@@ -190,6 +205,11 @@ const EditPage = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Edit Car</Breadcrumb.Item>
         </Breadcrumb>
+        {toastAlert && (
+          <Alert variant="danger" className="alert-seccess">
+            Gagal, gambar masih kosong
+          </Alert>
+        )}
     
         {editError && (
           <Alert variant="danger" className="alert-seccess">
@@ -246,6 +266,7 @@ const EditPage = () => {
                 // value={image}
                 onChange={editImage}
               />
+               <p className="text-ket">*isi gambar terlebih dahulu sebelum save*</p>
               {/* <img style={{ width: 200, height: 200 }} src={prevEditFile} /> */}
             </Col>
           </Form.Group>
@@ -290,14 +311,15 @@ const EditPage = () => {
             </Col>
           </Form.Group>
         </Form>
-        <div className="edit-btn">
-          <Button variant="outline-primary">Cancel</Button>
-          <Button variant="primary" onClick={editButton} isDisabled={!fixEdit}>
+      </div>
+
+      <div className="edit-btn">
+          <button className="edt-cancel" onClick={cancelEdit}>Cancel</button>
+          <button className="edt-save" onClick={editButton} isDisabled={!fixEdit}>
             Save
-          </Button>
+          </button>
      
         </div>
-      </div>
     </div>
   );
 };
