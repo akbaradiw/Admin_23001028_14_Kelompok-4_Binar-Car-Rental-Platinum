@@ -1,27 +1,43 @@
 import React, { useState, useCallback } from "react";
 import { Table, Pagination, Form, InputGroup, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSort,
-  faSortUp,
-  faSortDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import "./style.css";
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment";
 
 const TableCar = () => {
-  const [sortOrder, setSortOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [pageCount, setPageCount] = useState(0);
   const [data, setData] = useState([]);
   const [numOfPage, setNumOfPage] = useState([]);
+  const [status, setStatus] = useState();
+  const sortAscending = () => {
+    if (!status) {
+      const sortData = [...data];
+      const result = sortData.sort((a, b) => a.amountSpent - b.amountSpent);
+      setData(result);
+      setStatus("ASC");
+    } else if (status === "DESC") {
+      const reverseData = [...data];
+      setData(reverseData.reverse());
+      setStatus("ASC");
+    }
+  };
 
-  const handleSortClick = (key) => {
-    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(`${key}%3A${newSortOrder}`);
+  const sortDescending = () => {
+    if (!status) {
+      const sortData = [...data];
+      const result = sortData.sort((a, b) => b.amountSpent - a.amountSpent);
+      setData(result);
+      setStatus("DESC");
+    } else if (status === "ASC") {
+      const reverseData = [...data];
+      setData(reverseData.reverse());
+      setStatus("DESC");
+    }
   };
 
   function formatRupiah(angka) {
@@ -58,8 +74,8 @@ const TableCar = () => {
   };
 
   useEffect(() => {
-    fetchData(currentPage, itemsPerPage, sortOrder);
-  }, [currentPage, itemsPerPage, sortOrder]);
+    fetchData(currentPage, itemsPerPage);
+  }, [currentPage, itemsPerPage]);
 
   const initPageNumbers = useCallback((current, totalPage) => {
     const pageNumbers = [];
@@ -86,10 +102,7 @@ const TableCar = () => {
       }
     }
 
-    if (
-      totalPage > shownPageNumbers &&
-      !pageNumbers.includes(shownPageNumbers)
-    ) {
+    if (totalPage > shownPageNumbers && !pageNumbers.includes(shownPageNumbers)) {
       pageNumbers.unshift({
         ellipsis: true,
         page: pageNumbers.length,
@@ -103,14 +116,9 @@ const TableCar = () => {
     initPageNumbers(currentPage + 1, pageCount);
   }, [initPageNumbers, currentPage, pageCount]);
 
-
-
   return (
     <>
-      <div
-        className="d-flex-column"
-        style={{ maxHeight: "100vh", marginTop: "80px" }}
-      >
+      <div className="d-flex-column" style={{ maxHeight: "100vh", marginTop: "80px" }}>
         <h3 className="title-dashboard">Dashboard</h3>
         <div className="d-flex align-items-center mt-4">
           <div className="blue-line me-2"></div>
@@ -135,90 +143,49 @@ const TableCar = () => {
                 style={{ backgroundColor: "#cfd4ed", marginRight: "100px" }}
                 className="text-head-table"
               >
-                User Email{" "}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("email")} />
-                ) : (
-                  sortOrder === "desc" && (
-                    <FontAwesomeIcon
-                      icon={faSortDown}
-                      onClick={() => handleSortClick("email")}
-                    />
-                  )
-                )}
-                {!sortOrder && (
-                  <FontAwesomeIcon icon={faSort} onClick={() => handleSortClick("email")} />
-                )}
+                User Email{""}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("email") || sortDescending("email")}
+                />
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Car{" "}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("car_name")} />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("car_name")}
-                  />
-                )}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("car_name") || sortDescending("car_name")}
+                />
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Start Rent{" "}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("start_rent")} />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("start_rent")}
-                  />
-                )}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("start_rent") || sortDescending("start_rent")}
+                />
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Finish Rent{" "}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("finish_rent")} />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("finish_rent")}
-                  />
-                )}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("finish_rent") || sortDescending("finish_rent")}
+                />
               </th>
-              <th
-                style={{ backgroundColor: "#cfd4ed" }}
-                className="text-head-table"
-              >
+              <th style={{ backgroundColor: "#cfd4ed" }} className="text-head-table">
                 Price{" "}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("price")} />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("price")}
-                  />
-                )}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("price") || sortDescending("price")}
+                />
               </th>
               <th
                 style={{ backgroundColor: "#cfd4ed", minWidth: "10%" }}
                 className="text-head-table"
               >
                 Category{" "}
-                {sortOrder === "asc" ? (
-                  <FontAwesomeIcon icon={faSortUp} onClick={() => handleSortClick("category")} />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faSortDown}
-                    onClick={() => handleSortClick("category")}
-                  />
-                )}
+                <FontAwesomeIcon
+                  icon={faSort}
+                  onClick={() => sortAscending("category") || sortDescending("category")}
+                />
               </th>
             </tr>
           </thead>
@@ -268,20 +235,14 @@ const TableCar = () => {
                       // value={selectedMonth}
                     >
                       <option value="">Select page</option>
-                     
-                      {Array.from({ length: pageCount }).map(
-                        (_, index) => (
-                          <option key={index} value={index + 1}>
-                            {index + 1}
-                          </option>
-                        )
-                      )}
+
+                      {Array.from({ length: pageCount }).map((_, index) => (
+                        <option key={index} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      ))}
                     </Form.Select>
-                    <Button
-                      className="go"
-                      style={{ backgroundColor: "#0D28A6" }}
-                      // onClick={handleButtonClick}
-                    >
+                    <Button className="go" style={{ backgroundColor: "#0D28A6" }}>
                       Go
                     </Button>
                   </InputGroup>
@@ -293,11 +254,7 @@ const TableCar = () => {
             <Pagination>
               <Pagination.First onClick={() => setCurrentPage(1)} />
               <Pagination.Prev
-                onClick={() =>
-                  setCurrentPage((prevPage) =>
-                    prevPage > 1 ? prevPage - 1 : 1
-                  )
-                }
+                onClick={() => setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1))}
               />
               {numOfPage.map((val, idx) => {
                 if (typeof val === "number") {
@@ -311,12 +268,7 @@ const TableCar = () => {
                     </Pagination.Item>
                   );
                 } else {
-                  return (
-                    <Pagination.Ellipsis
-                      key={idx}
-                      onClick={() => setCurrentPage(val.page)}
-                    />
-                  );
+                  return <Pagination.Ellipsis key={idx} onClick={() => setCurrentPage(val.page)} />;
                 }
               })}
               <Pagination.Next
@@ -324,9 +276,7 @@ const TableCar = () => {
                   setCurrentPage(currentPage < pageCount ? currentPage + 1 : pageCount)
                 }
               />
-              <Pagination.Last
-                onClick={() => setCurrentPage(pageCount)}
-              />
+              <Pagination.Last onClick={() => setCurrentPage(pageCount)} />
             </Pagination>
           </div>
         </div>
