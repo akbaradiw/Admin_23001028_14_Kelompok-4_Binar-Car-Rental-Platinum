@@ -37,14 +37,14 @@ const EditPage = () => {
     category: "",
   });
 
-  const handleCancel = () => {
-    setAddForm({
+  const cancelEdit = () => {
+    setEditForm({
       name: "",
       price: "",
       image: "",
       category: "",
     });
-    setFixAdd(false);
+    setFixEdit(false);
     navigate("/cars");
   }
 
@@ -314,7 +314,7 @@ const EditPage = () => {
       </div>
 
       <div className="edit-btn">
-          <button className="edt-cancel" onClik={handleCancel}>Cancel</button>
+          <button className="edt-cancel" onClick={cancelEdit}>Cancel</button>
           <button className="edt-save" onClick={editButton} isDisabled={!fixEdit}>
             Save
           </button>
