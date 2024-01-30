@@ -204,7 +204,7 @@ const TableCar = () => {
           </tbody>
         </Table>
 
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between mb-3">
           <div className="d-flex">
             <div className="d-flex-column" style={{ width: "70px" }}>
               <p className="text-dashboard mb-2">Limit</p>
@@ -250,7 +250,7 @@ const TableCar = () => {
               </Form>
             </div>
           </div>
-          <div className="d-flex my-4">
+          <div className="d-flex">
             <Pagination>
               <Pagination.First onClick={() => setCurrentPage(1)} />
               <Pagination.Prev
