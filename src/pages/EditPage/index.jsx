@@ -23,10 +23,8 @@ const EditPage = () => {
   const navigate = useNavigate();
   const [editFile, setEditFile] = useState(0);
   const [fixEdit, setFixEdit] = useState(false);
-  const [changeImg, setChangeImg] = useState(false);
   const [editError, setEditError] = useState(false);
   const { id } = useParams();
-  const [toastAlert, setToastAlert] = useState(false);
   const dispatch = useDispatch();
 
 
@@ -87,26 +85,20 @@ const EditPage = () => {
 
   const editButton = async () => {
     if (editForm.image === "" ) {
-      // setFixEdit(true);
-      // setEditError(true);
-      setToastAlert(true);
+      setEditError(true);
       return; 
     }
     if (editForm.name === "") {
       setFixEdit(true);
       setEditError(true);
-      // setToastAlert(true);
       return; 
     }
     if (editForm.category === "") {
       setFixEdit(true);
       setEditError(true);
-      // setToastAlert(true);
       return
     }
 
-    // console.log(editForm);
-    // kalau misal error form datanya pindah ke atas config
     var token = localStorage.getItem("accessToken");
     const config = {
       headers: {
@@ -118,12 +110,6 @@ const EditPage = () => {
     console.log(editForm);
 
     try {
-      // const config = {
-      //   headers: {
-      //     access_token: localStorage.getItem("accessToken"),
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // };
 
       const formData = new FormData();
       formData.append("name", editForm.name);
@@ -138,7 +124,6 @@ const EditPage = () => {
         formData,
         config
       );
-      setLock(true);
       setFixEdit(true);
       console.log(editCarResponse);
         navigate("/cars");
@@ -173,9 +158,7 @@ const EditPage = () => {
         ...editForm,
         image: data,
       });
-      setChangeImg(true);
       editFile(URL.createObjectURL(e.target.files[0]));
-      setLock({ ...lock, image: e.target.files[0] });
     }
   };
 
@@ -208,12 +191,7 @@ const EditPage = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item active>Edit Car</Breadcrumb.Item>
         </Breadcrumb>
-        {toastAlert && (
-          <Alert variant="danger" className="alert-seccess">
-            Gagal, gambar masih kosong
-          </Alert>
-        )}
-    
+         
         {editError && (
           <Alert variant="danger" className="alert-seccess">
             Form tidak lengkap, Edit gagal
@@ -317,10 +295,10 @@ const EditPage = () => {
       </div>
 
       <div className="edit-btn">
-          <button className="edt-cancel" onClick={cancelEdit}>Cancel</button>
-          <button className="edt-save" onClick={editButton} isDisabled={!fixEdit}>
+          <Button className="edt-cancel" onClick={cancelEdit}>Cancel</Button>
+          <Button className="edt-save" onClick={editButton} disabled={!fixEdit}>
             Save
-          </button>
+          </Button>
      
         </div>
     </div>
