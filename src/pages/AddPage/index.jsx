@@ -246,14 +246,14 @@ const AddPage = () => {
         </Form>
       </div>
       <div className="btn-add">
-          <button className="add-cancel" onClick={handleCancel}>Cancel</button>
-          <button
+          <Button className="add-cancel" onClick={handleCancel}>Cancel</Button>
+          <Button
             className="add-save"
             onClick={handleSubmitForm}
             disabled={!fixAdd}
           >
             Save
-          </button>
+          </Button>
         </div>
     </div>
   );
