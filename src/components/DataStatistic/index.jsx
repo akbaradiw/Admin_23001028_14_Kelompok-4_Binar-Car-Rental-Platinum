@@ -11,7 +11,6 @@ import {
 import { Bar } from "react-chartjs-2";
 import moment from "moment";
 import axios from "axios";
-// import { useSelector } from "react-redux";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import "./style.css";
 
@@ -106,9 +105,7 @@ const DataStatistic = () => {
     },
   };
 
-  const handleButtonClick = (e) => {
-    // Add logic to execute when the button is clicked
-  };
+
 
   return (
     <>
@@ -148,7 +145,6 @@ const DataStatistic = () => {
                 <Button
                   className="go"
                   style={{ backgroundColor: "#0D28A6" }}
-                  onClick={handleButtonClick}
                 >
                   Go
                 </Button>

@@ -232,7 +232,6 @@ const TableCar = () => {
                       aria-label="Default select example"
                       style={{ maxWidth: "500px" }}
                       onChange={(e) => setCurrentPage(e.target.value)}
-                      // value={selectedMonth}
                     >
                       <option value="">Select page</option>
 

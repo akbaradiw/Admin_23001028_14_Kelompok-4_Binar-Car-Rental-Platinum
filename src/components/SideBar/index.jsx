@@ -3,7 +3,6 @@ import "./style.css";
 import square from "../../assets/squareside.png"
 import dashboard_img from "../../assets/dashboard_logo.png"
 import car_img from "../../assets/car_logo.png"
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import SideDashboard from "../SideDashboard";
 import SideCar from "../SideCar";

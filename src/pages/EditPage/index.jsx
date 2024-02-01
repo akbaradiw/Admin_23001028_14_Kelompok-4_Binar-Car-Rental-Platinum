@@ -67,7 +67,6 @@ const EditPage = () => {
       if (res.data.image != null) {
         res.data.image = await onImageEdit(res.data.image);
       }
-      console.log(res);
       setEditForm(res.data);
     } catch (err) {
       console.log(err);
@@ -107,7 +106,6 @@ const EditPage = () => {
       },
     };
 
-    console.log(editForm);
 
     try {
 
@@ -117,7 +115,6 @@ const EditPage = () => {
       formData.append("image", editForm.image);
       formData.append("category", editForm.category);
 
-      // console.log(formData);
 
       const editCarResponse = await axios.put(
         `https://api-car-rental.binaracademy.org/admin/car/${id}`,
@@ -125,7 +122,6 @@ const EditPage = () => {
         config
       );
       setFixEdit(true);
-      console.log(editCarResponse);
         navigate("/cars");
         dispatch(setMessage({
           addMessageSuccess: true,
@@ -138,7 +134,6 @@ const EditPage = () => {
         , 3000)
       setEditAlert(true);
     } catch (err) {
-      // console.log(err)
       setEditError(true);
     }
   };
@@ -244,11 +239,9 @@ const EditPage = () => {
               <Form.Control
                 type="file"
                 placeholder="Upload Foto Mobil"
-                // value={image}
                 onChange={editImage}
               />
                <p className="text-ket">*isi gambar terlebih dahulu sebelum save*</p>
-              {/* <img style={{ width: 200, height: 200 }} src={prevEditFile} /> */}
             </Col>
           </Form.Group>
           <Form.Group

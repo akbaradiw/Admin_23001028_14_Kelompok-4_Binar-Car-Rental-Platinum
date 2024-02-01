@@ -20,7 +20,6 @@ import { setMessage } from "../../redux/message/messageSlice";
 
 const AddPage = () => {
   const [file, setFile] = useState(0);
-  const [prevFile, setPrevFile] = useState(null);
   const navigate = useNavigate();
   const [fixAdd, setFixAdd] = useState(false);
   const [toastAlert, setToastAlert] = useState(false);
@@ -63,7 +62,6 @@ const AddPage = () => {
 
     if (!allowedExten.includes(extend)) {
       alert("File bukan gambar");
-      // e.target.value = null
       return; 
     } else if (data.size > allowedSize) {
       alert("File terlalu besar");
@@ -71,14 +69,12 @@ const AddPage = () => {
     }
  
     else {
-      console.log(e.target.files[0]);
       setFile(URL.createObjectURL(e.target.files[0]));
       setAddForm({
         ...addForm,
         image: data,
       });
    
-      console.log(data);
     }
   };
 
@@ -109,7 +105,6 @@ const AddPage = () => {
         config
       );
       setFixAdd(true);
-      console.log(addCarResponse);
         navigate("/cars");
     dispatch(setMessage({
       addMessageSuccess: true,
@@ -126,7 +121,6 @@ const AddPage = () => {
       console.log(err);
       setToastAlert(true);
     }
-    console.log(addForm);
   };
 
   return (
@@ -194,13 +188,10 @@ const AddPage = () => {
             <Col sm="10">
               <Form.Control
                 type="file"
-                // name="image"
                 placeholder="Upload Foto Mobil"
                 onChange={handleImage}
-                // value={addForm.image}
               />
             <p className="text-kett">*isi gambar terlebih dahulu sebelum save*</p>
-              {/* <img style={{ width: 200, height: 200 }} src={prevFile} /> */}
             </Col>
           </Form.Group>
           <Form.Group
