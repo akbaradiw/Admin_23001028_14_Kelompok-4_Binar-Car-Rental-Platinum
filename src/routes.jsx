@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import Authentication from "./routes/Authentication";
 import Protected from "./routes/Protected";
 
-export const routes = [
+export const routers = [
   {
     path: "/",
     element: (
