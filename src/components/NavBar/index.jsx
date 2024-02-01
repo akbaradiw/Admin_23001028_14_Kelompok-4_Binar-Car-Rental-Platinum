@@ -57,9 +57,9 @@ const NavBar = () => {
               />
             </Col>
             <Col xs="auto">
-              <button className="btn-search" onClick={handleSearch}>
+              <Button className="btn-search" onClick={handleSearch}>
                 Search
-              </button>
+              </Button>
             </Col>
             <Col xs="auto">
               <div id="text-admin">
