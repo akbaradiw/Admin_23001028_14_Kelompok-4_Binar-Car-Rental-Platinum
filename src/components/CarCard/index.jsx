@@ -126,7 +126,7 @@ const CarCard = ({ car }) => {
             <div className="col-6">
               <Button variant="outline-danger" className="button-100" onClick={() => handleDeleteCar()}>
                   <div className="d-flex justify-content-center gap-2">
-                  <p className="m-0"><i class="bi bi-trash h5"></i></p>
+                  <p className="m-0"><i className="bi bi-trash h5"></i></p>
                   <p className="m-0"><b>Delete</b></p>
                 </div>
               </Button>
@@ -135,7 +135,7 @@ const CarCard = ({ car }) => {
               <Button onClick={() => navigate(`/edit/${car.id}`)} variant="success" className="button-100">
                 
                 <div className="d-flex justify-content-center gap-2">
-                  <p className="m-0"><i class="bi bi-pencil-square h5"></i></p>
+                  <p className="m-0"><i className="bi bi-pencil-square h5"></i></p>
                   <p className="m-0"><b>Edit</b></p>
                 </div>
               </Button>

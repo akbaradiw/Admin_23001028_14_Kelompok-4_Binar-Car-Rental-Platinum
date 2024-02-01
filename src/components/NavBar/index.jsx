@@ -41,7 +41,7 @@ const NavBar = () => {
         <div className="d-flex gap-4">
           <div className="logo-navbar"></div>
           <div className="ml-3">
-            <i class="bi bi-list h2"></i>
+            <i className="bi bi-list h2"></i>
           </div>
         </div>
 
